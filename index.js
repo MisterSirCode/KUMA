@@ -19,7 +19,7 @@ for (const file of comFiles) {
 
 global.Bot.on("ready", () => {
     global.Bot.user.setPresence({
-        status: status,
+        status: "idle",
         activity: {
             name: `${global.Bot.guilds.cache.size} Servers`,
             type: "LISTENING",
