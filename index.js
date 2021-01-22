@@ -16,3 +16,16 @@ for (const file of comFiles) {
     const commandFile = require(`./Commands/${file}`);
     global.Bot.commands.set(commandFile.name, commandFile);
 }
+
+global.Bot.on("ready", () => {
+    global.Bot.user.setPresence({
+        status: status,
+        activity: {
+            name: `${global.Bot.guilds.cache.size} Servers`,
+            type: "LISTENING",
+            url: "https://deepworld.web.app/"
+        }
+    });
+});
+
+global.Bot.login(TOKEN);
