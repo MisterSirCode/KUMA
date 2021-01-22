@@ -17,6 +17,9 @@ for (const file of comFiles) {
     global.Bot.commands.set(commandFile.name, commandFile);
 }
 
+console.log(`Logging in with ${TOKEN}`);
+global.Bot.login(TOKEN);
+
 global.Bot.on("ready", () => {
     global.Bot.user.setPresence({
         status: "idle",
@@ -28,5 +31,20 @@ global.Bot.on("ready", () => {
     });
 });
 
-console.log(`Logging in with ${TOKEN}`);
-global.Bot.login(TOKEN);
+global.Bot.on("message", (msg) => {
+    try {
+        if (msg.author.bot) return;
+        if (msg.author.id === global.Bot.user.id) return;
+
+        let command = msg.content.split(" ")[0].slice(global.Prefix.length);
+        let args = msg.content.replace(`${global.Prefix + command}`, "").trim();
+        if (!global.Bot.commands.has(command.toLowerCase())) return;
+        
+        global.Bot.commands.get(command.toLowerCase()).execute(msg, args);
+    } catch(e) {
+        if (msg.author.id == 317796835265871873) {
+            msg.author.send(`${e}`);
+        }
+    } 
+}); 
+
