@@ -5,7 +5,7 @@ module.exports = {
     name: "help",
     description: "",
     async execute(msg, args) {
-        const helpRead = fs.readFileSync("Config/CommandList.json");
+        const helpRead = Fs.readFileSync("Config/CommandList.json");
         const helpData = JSON.parse(helpRead);
         const helpEmbed = new Discord.MessageEmbed()
             .setColor("#ff0000")
