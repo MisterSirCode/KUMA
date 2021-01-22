@@ -14,9 +14,9 @@ module.exports = {
                 for (command in helpData) {
                     const curCom = helpData[key];
                     if (curCom.perms)
-                        helpEmbed.addField(`${global.prefix}${key}`, `${curCom.desc}\n\nPermissions Required: ${curCom.perms.join(", ")}`);
+                        helpEmbed.addField(`${global.Prefix}${key}`, `${curCom.desc}\n\nPermissions Required: ${curCom.perms.join(", ")}`);
                     else
-                        helpEmbed.addField(`${global.prefix}${key}`, `${curCom.desc}`);
+                        helpEmbed.addField(`${global.Prefix}${key}`, `${curCom.desc}`);
                 }
             Object.keys(helpData).forEach(key => {
             });
