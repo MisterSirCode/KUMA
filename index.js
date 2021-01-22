@@ -29,7 +29,7 @@ global.Bot.on("ready", () => {
     });
 });
 
-global.Bot.on("message", (msg) => {
+global.Bot.on("message", async (msg) => {
     try {
         if (msg.author.bot) return;
         if (msg.author.id === global.Bot.user.id) return;
