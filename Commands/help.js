@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const Fs = require("fs");
 
 module.exports = {
     name: "help",
