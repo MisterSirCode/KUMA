@@ -1,0 +1,8 @@
+{
+    "help": {
+        "desc": "Lists all basic commands"
+    },
+    "ping": {
+        "desc": "Bot status and uptime"
+    }
+}
