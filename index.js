@@ -28,4 +28,5 @@ global.Bot.on("ready", () => {
     });
 });
 
+console.log(`Logging in with ${TOKEN}`);
 global.Bot.login(TOKEN);
