@@ -4,13 +4,10 @@ const Colors = require("colors");
 const Fs = require("fs");
 const lowdb = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
-const prefix = require("./Commands/prefix");
-const PrefixAdapter = new FileSync("./Databases/prefixes.json");
-const PrefixDB = lowdb(PrefixAdapter);
 const RanksAdapter = new FileSync("./Databases/userRanks.json");
 const RanksDB = lowdb(RanksAdapter);
 const TOKEN = process.env.TOKEN;
-const Prefix = "a!";
+const Prefix = "!";
 const Color = "#FF9600";
 const Version = require("./package.json").version;
 const Bot = new Discord.Client();
@@ -20,7 +17,6 @@ const comFiles = Fs.readdirSync("./Commands").filter(file => file.endsWith(".js"
 for (const file of comFiles) {
     const commandFile = require(`./Commands/${file}`);
     Bot.commands.set(commandFile.name, commandFile);
-    console.log(Bot.commands);
 }
 
 global.globalMods = [];
@@ -35,7 +31,14 @@ Bot.on("message", async (msg) => {
         const userIsNetSuperuser = global.netSuperusers.includes(msg.author.id);
         var curPrefix = Prefix;
         if (!isDirectMessage) {
-            if (PrefixDB.get(`servers.${msg.guild.id}`).value()) curPrefix = PrefixDB.get(`servers.${msg.guild.id}`).value();
+            const PrefixAdapter = new FileSync("./Databases/prefixes.json");
+            const PrefixDB = lowdb(PrefixAdapter);
+            for (let i = 0; i < Object.keys(PrefixDB.get("servers").value()).length; i++) {
+                const key = Object.keys(PrefixDB.get("servers").value())[i];
+                const value = PrefixDB.get("servers").value();
+                console.log(key, value[key]);
+                curPrefix = value[key];
+            }
             if (!msg.content.startsWith(curPrefix)) return;
         }
         if (msg.author.bot) return;
