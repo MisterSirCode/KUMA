@@ -5,7 +5,7 @@ module.exports = {
     name: "help",
     description: "",
     async execute(msg, args) {
-        Fs.readFile("Config/CommandList.json", (data) => {
+        Fs.readFile("../Config/CommandList.json", (data) => {
             console.log(data);
             const helpData = JSON.parse(data);
             const helpEmbed = new Discord.MessageEmbed()
@@ -19,8 +19,6 @@ module.exports = {
                     else
                         helpEmbed.addField(`${global.Prefix}${key}`, `${curCom.desc}`);
                 }
-            Object.keys(helpData).forEach(key => {
-            });
             msg.author.send(helpEmbed);
             msg.channel.send("Ive sent you the list");
         });
