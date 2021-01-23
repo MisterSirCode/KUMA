@@ -8,7 +8,7 @@ module.exports = {
         const helpRead = Fs.readFileAsync("Config/CommandList.json").then(() => {
             const helpData = JSON.parse(helpRead);
             const helpEmbed = new Discord.MessageEmbed()
-                .setColor("#ff0000")
+                .setColor(global.Color)
                 .setTitle("Arthur's Command List")
                 .setThumbnail(`https://deepworld.web.app/Images/sprocket.png`);
                 for (command in helpData) {

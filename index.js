@@ -7,6 +7,7 @@ const TOKEN  = process.env.TOKEN;
 
 global.Bot = new Discord.Client();
 global.Prefix = "a!";
+global.Color = "#F4BE25";
 global.BotVersion = require("./package.json").version;
 global.Bot.commands = new Discord.Collection();
 const comFiles = Fs.readdirSync("./Commands").filter(file => file.endsWith(".js"));
@@ -24,7 +25,7 @@ global.Bot.on("ready", () => {
         activity: {
             name: `${global.Bot.guilds.cache.size} Servers`,
             type: "LISTENING",
-            url: "https://deepworld.web.app/"
+            url: ""
         }
     });
 });
