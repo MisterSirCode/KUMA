@@ -1,6 +1,5 @@
 require("dotenv").config({ silent: true });
 const Discord = require("discord.js");
-const Keypress = require('keypress');
 const Colors = require("colors");
 const Fs = require("fs");
 const TOKEN  = process.env.TOKEN;
