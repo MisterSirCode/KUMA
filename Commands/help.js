@@ -5,8 +5,8 @@ module.exports = {
     name: "help",
     description: "",
     async execute(msg, args) {
-        const helpRead = Fs.readFile("Config/CommandList.json").then(() => {
-            const helpData = JSON.parse(helpRead);
+        Fs.readFile("Config/CommandList.json", (data) => {
+            const helpData = JSON.parse(data);
             const helpEmbed = new Discord.MessageEmbed()
                 .setColor(global.Color)
                 .setTitle("Arthur's Command List")
