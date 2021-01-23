@@ -1,0 +1,25 @@
+{
+    "users": {
+        "317796835265871873": {
+            "isGlobalModerator": true,
+            "isGlobalAdministrator": true,
+            "isNetworkSuperuser": true,
+            "isBotOwner": true,
+            "uid": "317796835265871873"
+        },
+        "281764800734691329": {
+            "isGlobalModerator": true,
+            "isGlobalAdministrator": true,
+            "isNetworkSuperuser": false,
+            "isBotOwner": false,
+            "uid": "281764800734691329"
+        },
+        "259552936579956738": {
+            "isGlobalModerator": true,
+            "isGlobalAdministrator": false,
+            "isNetworkSuperuser": false,
+            "isBotOwner": false,
+            "uid": "281764800734691329"
+        }
+    }
+}
