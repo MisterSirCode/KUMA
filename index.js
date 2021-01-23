@@ -16,10 +16,10 @@ for (const file of comFiles) {
     global.Bot.commands.set(commandFile.name, commandFile);
 }
 
-console.log(`Logging in with ${TOKEN}`);
 global.Bot.login(TOKEN);
 
 global.Bot.on("ready", () => {
+    console.log(`Logged in as ${global.Bot.user.name}`);
     global.Bot.user.setPresence({
         status: "idle",
         activity: {
