@@ -6,6 +6,7 @@ module.exports = {
     description: "",
     async execute(msg, args) {
         Fs.readFile("Config/CommandList.json", (data) => {
+            console.log(data);
             const helpData = JSON.parse(data);
             const helpEmbed = new Discord.MessageEmbed()
                 .setColor(global.Color)
