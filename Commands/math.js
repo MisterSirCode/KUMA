@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { evaluate } = require('mathjs')
+const { evaluate } = require('mathjs')''
 
 module.exports = {
     name: "m",
