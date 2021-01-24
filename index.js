@@ -36,8 +36,11 @@ Bot.on("message", async (msg) => {
             for (let i = 0; i < Object.keys(PrefixDB.get("servers").value()).length; i++) {
                 const key = Object.keys(PrefixDB.get("servers").value())[i];
                 const value = PrefixDB.get("servers").value();
-                console.log(key, value[key]);
                 curPrefix = value[key];
+            }
+            if (msg.content.toLowerCase() == "arthurs prefix") {
+                msg.channel.send(`My prefix for this server is \`${curPrefix}\``);
+                return;
             }
             if (!msg.content.startsWith(curPrefix)) return;
         }
