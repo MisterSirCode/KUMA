@@ -54,7 +54,7 @@ Bot.on("message", async (msg) => {
         }
         if (!Bot.commands.has(command.toLowerCase())) return;
         try {
-            Bot.commands.get(command.toLowerCase()).execute(msg, args, Bot, Color, Version, Prefix);
+            Bot.commands.get(command.toLowerCase()).execute(msg, args, Bot, Color, Version, curPrefix);
         } catch (e) {
             if (userIsNetSuperuser) console.warn(e);
         }
