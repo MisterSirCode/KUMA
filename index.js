@@ -29,8 +29,17 @@ Bot.on("message", async (msg) => {
         const userIsGlobalMod = global.globalMods.includes(msg.author.id);
         const userIsGlobalAdmin = global.globalAdmins.includes(msg.author.id);
         const userIsNetSuperuser = global.netSuperusers.includes(msg.author.id);
-        var curPrefix = Prefix;
-        if (!isDirectMessage) {
+        let curPrefix = Prefix;
+        let command = msg.content.split(" ")[0].slice(curPrefix.length);
+        let args = msg.content.replace(`${curPrefix + command}`, "").trim();
+
+        if (msg.author.bot) return;
+        if (msg.author.id === Bot.user.id) return;
+
+        if (isDirectMessage) {
+            command = msg.content.split(" ")[0];
+            args = msg.content.replace(`${command}`, "").trim();
+        } else {
             const PrefixAdapter = new FileSync("./Databases/prefixes.json");
             const PrefixDB = lowdb(PrefixAdapter);
             for (let i = 0; i < Object.keys(PrefixDB.get("servers").value()).length; i++) {
@@ -44,14 +53,7 @@ Bot.on("message", async (msg) => {
             }
             if (!msg.content.startsWith(curPrefix)) return;
         }
-        if (msg.author.bot) return;
-        if (msg.author.id === Bot.user.id) return;
-        let command = msg.content.split(" ")[0].slice(curPrefix.length);
-        let args = msg.content.replace(`${curPrefix + command}`, "").trim();
-        if (isDirectMessage) {
-            command = msg.content.split(" ")[0];
-            args = msg.content.replace(`${command}`, "").trim();
-        }
+        
         if (!Bot.commands.has(command.toLowerCase())) return;
         try {
             Bot.commands.get(command.toLowerCase()).execute(msg, args, Bot, Color, Version, curPrefix);

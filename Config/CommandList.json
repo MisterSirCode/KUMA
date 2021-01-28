@@ -4,5 +4,23 @@
     },
     "ping": {
         "desc": "Bot status and uptime"
+    },
+    "prefix": {
+        "desc": "Changes the prefix for your Server",
+        "perms": ["Manage Guild"]
+    },
+    "kick": {
+        "desc": "Kicks a user with an optional reason",
+        "perms": ["Kick Members"]
+    },
+    "ban": {
+        "desc": "Bans a user with an optional reason",
+        "perms": ["Ban Members"]
+    },
+    "math": {
+        "desc": "Evaluates math using MathJS (Temporarily Disabled for Vulnerabilities)"
+    },
+    "invite": {
+        "desc": "Creates a link that can be used to invite this bot to another server"
     }
 }
