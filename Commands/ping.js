@@ -10,6 +10,6 @@ module.exports = {
             .setTitle(`Android Arthur v${Version}`)
             .addField("Ping", `${Bot.ws.ping}ms`, true)
             .addField("Guilds", `${Bot.guilds.cache.size}`, true);
-        msg.channel.send(pingEmbed);
+        msg.channel.send({inlineReply: { pingEmbed }});
     }
 };

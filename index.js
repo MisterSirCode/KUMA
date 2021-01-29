@@ -30,16 +30,11 @@ Bot.on("message", async (msg) => {
         const userIsGlobalAdmin = global.globalAdmins.includes(msg.author.id);
         const userIsNetSuperuser = global.netSuperusers.includes(msg.author.id);
         let curPrefix = Prefix;
-        let command = msg.content.split(" ")[0].slice(curPrefix.length);
-        let args = msg.content.replace(`${curPrefix + command}`, "").trim();
 
         if (msg.author.bot) return;
         if (msg.author.id === Bot.user.id) return;
 
-        if (isDirectMessage) {
-            command = msg.content.split(" ")[0];
-            args = msg.content.replace(`${command}`, "").trim();
-        } else {
+        if (!isDirectMessage) {
             const PrefixAdapter = new FileSync("./Databases/prefixes.json");
             const PrefixDB = lowdb(PrefixAdapter);
             for (let i = 0; i < Object.keys(PrefixDB.get("servers").value()).length; i++) {
@@ -52,6 +47,14 @@ Bot.on("message", async (msg) => {
                 return;
             }
             if (!msg.content.startsWith(curPrefix)) return;
+        }
+
+        let command = msg.content.split(" ")[0].slice(curPrefix.length);
+        let args = msg.content.replace(`${curPrefix + command}`, "").trim();
+
+        if (isDirectMessage) {
+            command = msg.content.split(" ")[0];
+            args = msg.content.replace(`${command}`, "").trim();
         }
         
         if (!Bot.commands.has(command.toLowerCase())) return;
@@ -81,6 +84,7 @@ Bot.on("ready", async () => {
         if (user.isNetworkSuperuser) global.netSuperusers.push(user.uid);
     }
     botPresence("idle", `${Bot.guilds.cache.size} Servers`, "LISTENING");
+    console.log("Bot Running");
 });
 
 Bot.on("guildCreate", () => {
