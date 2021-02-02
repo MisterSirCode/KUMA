@@ -7,7 +7,6 @@ const FileSync = require("lowdb/adapters/FileSync");
 const RanksAdapter = new FileSync("./Databases/userRanks.json");
 const RanksDB = lowdb(RanksAdapter);
 const TOKEN = process.env.TOKEN;
-const Prefix = "!";
 const Color = "#FF9600";
 const Version = require("./package.json").version;
 const Bot = new Discord.Client();
@@ -19,6 +18,7 @@ for (const file of comFiles) {
     Bot.commands.set(commandFile.name, commandFile);
 }
 
+global.prefix = "!";
 global.globalMods = [];
 global.globalAdmins = [];
 global.netSuperusers = [];
@@ -29,7 +29,7 @@ Bot.on("message", async (msg) => {
         const userIsGlobalMod = global.globalMods.includes(msg.author.id);
         const userIsGlobalAdmin = global.globalAdmins.includes(msg.author.id);
         const userIsNetSuperuser = global.netSuperusers.includes(msg.author.id);
-        let curPrefix = Prefix;
+        let curPrefix = global.prefix;
 
         if (msg.author.bot) return;
         if (msg.author.id === Bot.user.id) return;
@@ -40,7 +40,9 @@ Bot.on("message", async (msg) => {
             for (let i = 0; i < Object.keys(PrefixDB.get("servers").value()).length; i++) {
                 const key = Object.keys(PrefixDB.get("servers").value())[i];
                 const value = PrefixDB.get("servers").value();
-                curPrefix = value[key];
+                if (key == msg.guild.id) {
+                    curPrefix = value[key];
+                }
             }
             if (msg.content.toLowerCase() == "arthurs prefix") {
                 msg.channel.send(`My prefix for this server is \`${curPrefix}\``);

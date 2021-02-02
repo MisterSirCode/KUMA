@@ -9,6 +9,10 @@
         "desc": "Changes the prefix for your Server",
         "perms": ["Manage Guild"]
     },
+    "clear": {
+        "desc": "Clears server info for current server and sets settings and prefix to default",
+        "perms": ["Manage Guild"]
+    },
     "kick": {
         "desc": "Kicks a user with an optional reason",
         "perms": ["Kick Members"]
