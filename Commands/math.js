@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const Wp = require('workerpool');
 const { evaluate } = require('mathjs');
 
 module.exports = {
@@ -6,13 +7,25 @@ module.exports = {
     description: "",
     execute(msg, args, Bot, Color, Version, Prefix) {
         // try {
-        //     const mathEmbed = new Discord.MessageEmbed()
-        //         .setColor(Color)
-        //         .setTitle(`${evaluate(args)}`);
-        //     msg.channel.send(mathEmbed);
+        //     const pool = Wp.pool();
+        //     const argsArray = [];
+        //     argsArray.push(args);
+        //     pool.exec(evaluate, [args])
+        //     .then(function(result) {
+        //         const mathEmbed = new Discord.MessageEmbed()
+        //             .setColor(Color)
+        //             .setTitle(`${result}`);
+        //         msg.channel.send(mathEmbed);
+        //     })
+        //     .catch(function(err) {
+        //         console.log(err);
+        //     })
+        //     .then(function() {
+        //         pool.terminate();
+        //     })
         // } catch(e) {
-        //     // overflow errors begone!
+        //     console.log(e);
         // }
-        msg.channel.send("Due to Major Vulnerabilities discovered in MathJS, this command has been disabled for now");
+        msg.channel.send("Math is currently disabled because of a major vulnerability");
     }
 };
