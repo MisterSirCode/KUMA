@@ -4,7 +4,7 @@ const Colors = require("colors");
 const Fs = require("fs");
 const lowdb = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
-const RanksAdapter = new FileSync("./Databases/userRanks.json");
+const RanksAdapter = new FileSync("./Databases/userInformation.json");
 const RanksDB = lowdb(RanksAdapter);
 const TOKEN = process.env.TOKEN;
 const Color = "#FF9600";
@@ -95,27 +95,27 @@ Bot.on("guildCreate", () => {
 
 Bot.on("guildDelete", () => {
     botPresence("idle", `${Bot.guilds.cache.size} Servers`, "LISTENING");
-})
+});
 
-// bot.on("guildMemberRemove", guildMember => {
-//     if (guildMember.guild.id == "731511745755217931") {
-//         bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
-//         bot.channels.cache.get("742083593282650224").send(
-//             `User #${guildMember.guild.memberCount}, ${guildMember.user} just left`);
-//     }
-// });
+Bot.on("guildMemberRemove", guildMember => {
+    if (guildMember.guild.id == "731511745755217931") {
+        Bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
+        Bot.channels.cache.get("742083593282650224").send(
+            `User #${guildMember.guild.memberCount}, ${guildMember.user} just left`);
+    }
+});
 
-// bot.on("guildMemberAdd", (guildMember) => {
-//     if (guildMember.guild.id == "731511745755217931") {
-//         var role = guildMember.guild.roles.cache.find(role => role.name === "Member");
-//         var roleBaseColor = guildMember.guild.roles.cache.find(role => role.name === "Membergreen");
-//         guildMember.roles.add(role);
-//         guildMember.roles.add(roleBaseColor);
-//         bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
-//         bot.channels.cache.get("742083593282650224").send(
-//             `User #${guildMember.guild.memberCount}, ${guildMember.user} just joined`);
-//     }
-// });
+Bot.on("guildMemberAdd", (guildMember) => {
+    if (guildMember.guild.id == "731511745755217931") {
+        var role = guildMember.guild.roles.cache.find(role => role.name === "Member");
+        var roleBaseColor = guildMember.guild.roles.cache.find(role => role.name === "Membergreen");
+        guildMember.roles.add(role);
+        guildMember.roles.add(roleBaseColor);
+        Bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
+        Bot.channels.cache.get("742083593282650224").send(
+            `User #${guildMember.guild.memberCount}, ${guildMember.user} just joined`);
+    }
+});
 
 Bot.login(TOKEN);
 
