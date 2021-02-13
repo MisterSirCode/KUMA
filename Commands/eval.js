@@ -12,20 +12,20 @@ module.exports = {
                 try {
                     output = eval(newArgs);
                 } catch(e) {
-                    output = `${e}`;
+                    output = e;
                 }
                 if (parameters.includes("o")) {
                     const evalEmbed = new Discord.MessageEmbed()
                         .setColor(Color)
-                        .setTitle(output);
+                        .setTitle(`${output}`);
                     msg.channel.send(evalEmbed);
                 }
                 if (parameters.includes("d")) {
-                    msg.delete();
+                    try {
+                        msg.delete();
+                    } catch(e) {}
                 }
-            } catch(e) {
-                // Caught
-            }
+            } catch(e) {}
         }
     }
 };

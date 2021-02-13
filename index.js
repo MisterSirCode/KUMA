@@ -4,8 +4,6 @@ const Colors = require("colors");
 const Fs = require("fs");
 const lowdb = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
-const RanksAdapter = new FileSync("./Databases/userInformation.json");
-const RanksDB = lowdb(RanksAdapter);
 const TOKEN = process.env.TOKEN;
 const Color = "#FF9600";
 const Version = require("./package.json").version;
@@ -73,17 +71,14 @@ Bot.on("message", async (msg) => {
 // Extra Things
 
 Bot.on("ready", async () => {
-    // const prefRead = await fs.promises.readFile(`Codex/Prefixes.json`);
-    // const prefData = JSON.parse(prefRead);
-    // global.serPrefixes = prefData;
-    // bot.guilds.cache.forEach((guild) => {
-    //     if (!global.serPrefixes[guild.id]) global.serPrefixes[guild.id] = prefix;
-    // });
-    // var status = "idle";
-    for (const user in RanksDB.get("users")) {
-        if (user.isGlobalModerator) global.globalMods.push(user.uid);
-        if (user.isGlobalAdministrator) global.globalMods.push(user.uid);
-        if (user.isNetworkSuperuser) global.netSuperusers.push(user.uid);
+    const RanksAdapter = new FileSync("./Databases/userInformation.json");
+    const RanksDB = lowdb(RanksAdapter);
+    for (let i = 0; i < Object.keys(RanksDB.get("users").value()).length; i++) {
+        const key = Object.keys(RanksDB.get("users").value())[i];
+        const value = RanksDB.get("users").value();
+        if (value[key].isGlobalModerator) global.globalMods.push(value[key].uid);
+        if (value[key].isGlobalAdministrator) global.globalAdmins.push(value[key].uid);
+        if (value[key].isNetworkSuperuser) global.netSuperusers.push(value[key].uid);
     }
     botPresence("idle", `${Bot.guilds.cache.size} Servers`, "LISTENING");
     console.log("Bot Running");
