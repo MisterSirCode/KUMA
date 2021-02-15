@@ -1,25 +1,64 @@
 {
-    "users": {
-        "317796835265871873": {
-            "isGlobalModerator": true,
-            "isGlobalAdministrator": true,
-            "isNetworkSuperuser": true,
-            "isBotOwner": true,
-            "uid": "317796835265871873"
-        },
-        "281764800734691329": {
-            "isGlobalModerator": true,
-            "isGlobalAdministrator": true,
-            "isNetworkSuperuser": false,
-            "isBotOwner": false,
-            "uid": "281764800734691329"
-        },
-        "259552936579956738": {
-            "isGlobalModerator": true,
-            "isGlobalAdministrator": false,
-            "isNetworkSuperuser": false,
-            "isBotOwner": false,
-            "uid": "281764800734691329"
-        }
+  "users": {
+    "317796835265871873": {
+      "rank": 3,
+      "isBotOwner": false,
+      "uid": "317796835265871873"
+    },
+    "281764800734691329": {
+      "rank": 2,
+      "isBotOwner": false,
+      "uid": "281764800734691329"
+    },
+    "259552936579956738": {
+      "rank": 1,
+      "isBotOwner": false,
+      "uid": "259552936579956738"
+    },
+    "254069642283188224": {
+      "rank": 1,
+      "isBotOwner": false,
+      "uid": "254069642283188224"
+    },
+    "159669861910446081": {
+      "rank": 1,
+      "isBotOwner": false,
+      "uid": "159669861910446081"
+    },
+    "334860833878179842": {
+      "rank": 1,
+      "isBotOwner": false,
+      "uid": "334860833878179842"
+    },
+    "355740489284321280": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "355740489284321280"
+    },
+    "424903229651025930": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "424903229651025930"
+    },
+    "415805513800876033": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "415805513800876033"
+    },
+    "267491001247989771": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "267491001247989771"
+    },
+    "141666643154567170": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "141666643154567170"
+    },
+    "222400243356925953": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "222400243356925953"
     }
+  }
 }

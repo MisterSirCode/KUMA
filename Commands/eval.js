@@ -10,7 +10,7 @@ module.exports = {
                 args = args.replace(/(\s+|)-[a-z]+(\s+|)/gi, "");
                 let output;
                 try {
-                    output = eval(newArgs);
+                    output = eval(args);
                 } catch(e) {
                     output = e;
                 }

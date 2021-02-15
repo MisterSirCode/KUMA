@@ -30,17 +30,22 @@ module.exports = {
                 .setFooter(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`);
             let ranks = "";
             if (global.globalMods.includes(user.id)) {
+                ranks += "<:GlobalBotMod:750528606924570745> ";
                 if (global.globalAdmins.includes(user.id)) {
+                    ranks += "<:GlobalBotAdmin:750528606996004964> ";
                     if (global.netSuperusers.includes(user.id)) {
-                        ranks += "<:GlobalBotSuperuser:750170311348977745> Network Superuser\n";
-                    } else {
-                        ranks += "<:GlobalBotAdministrator:750528606924570745> Global Administrator\n";
+                        ranks += "<:GlobalBotSuperuser:750170311348977745> ";
                     }
-                } else {
-                    ranks += "<:GlobalBotModerator:750528606996004964> Global Moderator\n";
                 }
             }
-            if (user.id == "317796835265871873") ranks += "<:GlobalBotOwner:750527063752048661> Bot Creator\n";
+            if (global.contributors.includes(user.id)) {
+                ranks += "<:Contributor:810843786707992577> ";
+            }
+            if (user.id == "317796835265871873") ranks += "<:GlobalBotOwner:750527063752048661> ";
+            if (member.id) {
+                if (member.hasPermission("ADMINISTRATOR")) ranks += "<:ServerAdmin:750533242683261008> ";
+                if (msg.guild.ownerID == member.id) ranks += "<:ServerOwner:749995280769745057> ";
+            }
             if (member.id) userEmbed.setTitle(`${member.displayName}`);
             userEmbed.setDescription(ranks);
             msg.channel.send(userEmbed);
