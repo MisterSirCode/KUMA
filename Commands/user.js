@@ -2,6 +2,33 @@ const Discord = require("discord.js");
 const {
     sign
 } = require("mathjs");
+const epochs = [
+    ['year', 31536000],
+    ['month', 2592000],
+    ['day', 86400],
+    ['hour', 3600],
+    ['minute', 60],
+    ['second', 1]
+];
+
+const getDuration = (timeAgoInSeconds) => {
+    for (let [name, seconds] of epochs) {
+        const interval = Math.round((timeAgoInSeconds / seconds) * 10) / 10;
+        if (interval >= 1) {
+            return {
+                interval: interval,
+                epoch: name
+            };
+        }
+    }
+};
+
+const timeAgo = (date) => {
+    const timeAgoInSeconds = Math.round(((new Date() - new Date(date)) / 1000) * 10) / 10;
+    const {interval, epoch} = getDuration(timeAgoInSeconds);
+    const suffix = interval === 1 ? '' : 's';
+    return `${interval} ${epoch}${suffix}`;
+};
 
 module.exports = {
     name: "user",
@@ -47,10 +74,10 @@ module.exports = {
                 if (msg.guild.ownerID == member.id) ranks += "<:ServerOwner:749995280769745057> ";
             }
             if (member.id) userEmbed.setTitle(`${member.displayName}`);
-            userEmbed.setDescription(ranks);
+            userEmbed.setDescription(`${ranks}\n\nCreated: ${member.user.createdAt.toDateString()}\nAge: ${timeAgo(member.user.createdAt)}`);
             msg.channel.send(userEmbed);
         } catch (e) {
-            msg.channel.send(`${e}`);
+            console.log(e);
         }
     }
 };
