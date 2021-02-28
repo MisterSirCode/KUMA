@@ -1,7 +1,9 @@
+const Discord = require("discord.js");
+
 module.exports = {
     name: "capital",
     description: "",
-    async execute(msg, args, userIsAdmin, userIsGlobalMod, userIsGlobalAdmin, userIsNetSuperuser, bot, prefix, fs, Discord, version, safeEval, defColor) {
+    async execute(msg, args, Bot, Color, Version, Prefix) {
         if (msg.member.hasPermission("MANAGE_CHANNELS")) {
             let charList = {
                 "A": "𝖠",
