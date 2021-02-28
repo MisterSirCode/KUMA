@@ -4,9 +4,9 @@ module.exports = {
     execute(msg, args, Bot, Color, Version, Prefix) {
         try {
             if (!msg.guild.me.hasPermission("BAN_MEMBERS"))
-                return msg.channel.send("I do not have permission to Ban members");
+                return msg.channel.send("I do not have permission to Ban Members");
             if (!msg.member.hasPermission("BAN_MEMBERS"))
-                return msg.channel.send("You do have have permission to Ban members");
+                return msg.channel.send("You do have have permission to Ban Members");
             if (!/(\<\@\d+\>|\<\@\!\d+\>)/g.test(args))
                 return msg.channel.send("Please specify a user to be Banned, with an optional reason");
             let parameters = args;

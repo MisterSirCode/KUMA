@@ -22,7 +22,7 @@ module.exports = {
                 oldMsg.edit(newPingEmbed);
             });
         } else {
-            msg.channel.send("You dont have permission to manage this guild");
+            msg.channel.send("You dont have permission to Manage this Guild");
             return;
         }
     }

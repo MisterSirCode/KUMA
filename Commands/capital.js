@@ -46,7 +46,7 @@ module.exports = {
             msg.channel.send(chanEmbed);
             msg.channel.setName(`${newString}`);
         } else {
-            msg.channel.send(`I do not have permission to rename channels`);
+            msg.channel.send(`I do not have permission to Rename Channels`);
         }
     }
 };
