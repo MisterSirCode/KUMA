@@ -26,5 +26,9 @@
     },
     "invite": {
         "desc": "Creates a link that can be used to invite this bot to another server"
+    },
+    "capital": {
+        "desc": "Renames current channel with capital letters. Type your Capitalized Channel Name after the command",
+        "perms": ["Manage Channels"]
     }
 }
