@@ -40,7 +40,7 @@ module.exports = {
                 newString += conv || c;
             });
             const chanEmbed = new Discord.MessageEmbed()
-                .setColor(defColor)
+                .setColor(Color)
                 .setTitle(`#${msg.channel.name} renamed to ${newString}`)
                 .addField(`Warning`, `Channels can only be renamed twice every 10 minutes`, true);
             msg.channel.send(chanEmbed);
