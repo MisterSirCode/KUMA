@@ -97,8 +97,6 @@ Bot.on("guildDelete", () => {
 Bot.on("guildMemberRemove", guildMember => {
     if (guildMember.guild.id == "731511745755217931") {
         Bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
-        Bot.channels.cache.get("742083593282650224").send(
-            `User #${guildMember.guild.memberCount}, ${guildMember.user} just left`);
     }
 });
 
@@ -109,8 +107,6 @@ Bot.on("guildMemberAdd", (guildMember) => {
         guildMember.roles.add(role);
         guildMember.roles.add(roleBaseColor);
         Bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
-        Bot.channels.cache.get("742083593282650224").send(
-            `User #${guildMember.guild.memberCount}, ${guildMember.user} just joined`);
     }
 });
 
