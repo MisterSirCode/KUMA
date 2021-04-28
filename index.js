@@ -95,13 +95,13 @@ Bot.on("guildDelete", () => {
 });
 
 Bot.on("guildMemberRemove", guildMember => {
-    if (guildMember.guild.id == "731511745755217931") {
+    if (guildMember.guild.id === "731511745755217931") {
         Bot.channels.cache.get("741873813398224927").setName(`${guildMember.guild.memberCount} Users`);
     }
 });
 
 Bot.on("guildMemberAdd", (guildMember) => {
-    if (guildMember.guild.id == "731511745755217931") {
+    if (guildMember.guild.id === "731511745755217931") {
         var role = guildMember.guild.roles.cache.find(role => role.name === "Member");
         var roleBaseColor = guildMember.guild.roles.cache.find(role => role.name === "Membergreen");
         guildMember.roles.add(role);
