@@ -27,5 +27,8 @@ module.exports = {
                 }
             } catch(e) {}
         }
+    },
+    init(Bot, Color, Version) {
+
     }
 };

@@ -4,6 +4,7 @@ module.exports = {
     name: "capital",
     description: "",
     async execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         if (msg.member.hasPermission("MANAGE_CHANNELS")) {
             let charList = {
                 "A": "𝖠",
@@ -48,5 +49,8 @@ module.exports = {
         } else {
             msg.channel.send(`I do not have permission to Rename Channels`);
         }
+    },
+    init(Bot, Color, Version) {
+
     }
 };

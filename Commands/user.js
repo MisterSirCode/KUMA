@@ -34,6 +34,7 @@ module.exports = {
     name: "user",
     description: "",
     async execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         try {
             let user;
             let userid;
@@ -79,5 +80,8 @@ module.exports = {
         } catch (e) {
             console.log(e);
         }
+    },
+    init(Bot, Color, Version) {
+
     }
 };

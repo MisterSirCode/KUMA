@@ -7,6 +7,7 @@ module.exports = {
     name: "help",
     description: "",
     execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         readFile("./Config/CommandList.json").then((data) => {
             const helpData = JSON.parse(data.toString());
             const helpEmbed = new Discord.MessageEmbed()
@@ -25,5 +26,8 @@ module.exports = {
                 msg.delete();
             }
         });
+    },
+    init(Bot, Color, Version) {
+
     }
 };

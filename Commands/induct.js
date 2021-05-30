@@ -12,6 +12,7 @@ module.exports = {
     name: "induct",
     description: "",
     async execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         try {
             if (global.netSuperusers.includes(msg.author.id)) {
                 let user;
@@ -59,5 +60,8 @@ module.exports = {
                 }
             }
         } catch (e) {}
+    },
+    init(Bot, Color, Version) {
+
     }
 };

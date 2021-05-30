@@ -8,6 +8,7 @@ module.exports = {
     name: "clear",
     description: "",
     execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         if (msg.member.hasPermission("MANAGE_GUILD") || msg.author.id == "317796835265871873") {
             const pingEmbed = new Discord.MessageEmbed()
                 .setColor(Color)
@@ -23,5 +24,8 @@ module.exports = {
             msg.channel.send("You dont have permission to manage this guild");
             return;
         }
+    },
+    init(Bot, Color, Version) {
+
     }
 };

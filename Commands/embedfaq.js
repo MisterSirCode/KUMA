@@ -6,6 +6,7 @@ module.exports = {
     name: "embedfaq",
     description: "",
     execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         if (msg.author.id === "317796835265871873") {
             const newArgs = args.split("|");
             const faqEmbed = new Discord.MessageEmbed()
@@ -15,5 +16,8 @@ module.exports = {
             hook.send(faqEmbed);
             msg.delete();
         }
+    },
+    init(Bot, Color, Version) {
+
     }
 };

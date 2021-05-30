@@ -8,6 +8,7 @@ const TOKEN = process.env.TOKEN;
 const Color = "#FF9600";
 const Version = require("./package.json").version;
 const Bot = new Discord.Client();
+require('discord-buttons')(Bot);
 
 Bot.commands = new Discord.Collection();
 const comFiles = Fs.readdirSync("./Commands").filter(file => file.endsWith(".js"));
@@ -24,15 +25,14 @@ global.contributors = [];
 
 Bot.on("message", async (msg) => {
     try {
+        global.GBot = Bot;
         const isDirectMessage = msg.channel.type === "dm";
         const userIsGlobalMod = global.globalMods.includes(msg.author.id);
         const userIsGlobalAdmin = global.globalAdmins.includes(msg.author.id);
         const userIsNetSuperuser = global.netSuperusers.includes(msg.author.id);
         let curPrefix = global.prefix;
-
         if (msg.author.bot) return;
         if (msg.author.id === Bot.user.id) return;
-
         if (!isDirectMessage) {
             const PrefixAdapter = new FileSync("./Databases/prefixes.json");
             const PrefixDB = lowdb(PrefixAdapter);
@@ -49,10 +49,8 @@ Bot.on("message", async (msg) => {
             }
             if (!msg.content.startsWith(curPrefix)) return;
         }
-
         let command = msg.content.split(" ")[0].slice(curPrefix.length);
         let args = msg.content.replace(`${curPrefix + command}`, "").trim();
-
         if (isDirectMessage) {
             command = msg.content.split(" ")[0];
             args = msg.content.replace(`${command}`, "").trim();
@@ -69,9 +67,15 @@ Bot.on("message", async (msg) => {
     }
 });
 
+
+Bot.on("clickButton", () => {
+    global.GBot = Bot;
+});
+
 // Extra Things
 
 Bot.on("ready", async () => {
+    global.isListening = true;
     const RanksAdapter = new FileSync("./Databases/userInformation.json");
     const RanksDB = lowdb(RanksAdapter);
     for (let i = 0; i < Object.keys(RanksDB.get("users").value()).length; i++) {
@@ -81,6 +85,9 @@ Bot.on("ready", async () => {
         if (value[key].rank >= 2) global.globalAdmins.push(value[key].uid);
         if (value[key].rank >= 3) global.netSuperusers.push(value[key].uid);
         if (value[key].isContrib) global.contributors.push(value[key].uid);
+    }
+    for (const [name, command] of Bot.commands) {
+        Bot.commands.get(command.name.toLowerCase()).init(Bot, Color, Version);
     }
     botPresence("idle", `${Bot.guilds.cache.size} Servers`, "LISTENING");
     console.log("Bot Running");

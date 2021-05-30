@@ -2,6 +2,7 @@ module.exports = {
     name: "ban",
     description: "",
     execute(msg, args, Bot, Color, Version, Prefix) {
+        if (!global.isListening) return;
         try {
             if (!msg.guild.me.hasPermission("BAN_MEMBERS"))
                 return msg.channel.send("I do not have permission to Ban Members");
@@ -33,5 +34,8 @@ module.exports = {
         } catch(e) {
             console.log(e);
         }
+    },
+    init(Bot, Color, Version) {
+
     }
 };
