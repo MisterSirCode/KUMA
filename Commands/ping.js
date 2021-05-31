@@ -52,14 +52,8 @@ module.exports = {
                             embed: pingEmbed,
                             buttons: [refreshButtonOn]
                         });
-                        try {
-                            button.defer();
-                        } catch(e) {
-                            // oh wells
-                        }
                     }, 3000);
                 } catch(e) {
-                    button.defer();
                 }
             }
         });
