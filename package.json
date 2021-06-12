@@ -14,6 +14,7 @@
     "discord-buttons": "^2.4.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
+    "ffmpeg": "0.0.4",
     "lowdb": "^1.0.0",
     "mathjs": "^9.0.0",
     "ytdl-core": "^4.8.2"
