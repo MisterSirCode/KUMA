@@ -3,12 +3,12 @@ const {
     sign
 } = require("mathjs");
 const epochs = [
-    ['year', 31536000],
-    ['month', 2592000],
-    ['day', 86400],
-    ['hour', 3600],
-    ['minute', 60],
-    ['second', 1]
+    ['Year', 31536000],
+    ['Month', 2592000],
+    ['Day', 86400],
+    ['Hour', 3600],
+    ['Minute', 60],
+    ['Second', 1]
 ];
 
 const getDuration = (timeAgoInSeconds) => {
@@ -75,7 +75,7 @@ module.exports = {
                 if (msg.guild.ownerID == member.id) ranks += "<:ServerOwner:749995280769745057> ";
             }
             if (member.id) userEmbed.setTitle(`${member.displayName}`);
-            userEmbed.setDescription(`${ranks}\n\nCreated: ${member.user.createdAt.toDateString()}\nAge: ${timeAgo(member.user.createdAt)}`);
+            userEmbed.setDescription(`${ranks}\n\nCreated: ${member.user.createdAt.toDateString()}\nDiscord Age: ${timeAgo(member.user.createdAt)}`);
             msg.channel.send(userEmbed);
         } catch (e) {
             console.log(e);
