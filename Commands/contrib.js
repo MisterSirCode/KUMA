@@ -14,7 +14,7 @@ module.exports = {
     async execute(msg, args, Bot, Color, Version, Prefix) {
         if (!global.isListening) return;
         try {
-            if (global.netSuperusers.includes(msg.author.id)) {
+            if (global.netSuperusers.includes(msg.author.id) || msg.author.id == global.botOwner) {
                 let user;
                 let userid;
                 if (args.includes("<@") && args.includes(">")) {
@@ -35,19 +35,15 @@ module.exports = {
                     const key = Object.keys(RanksDB.get("users").value())[i];
                     const value = RanksDB.get("users").value();
                     if (value[key].uid == user.id) {
-                        role = value[key].isContrib || 0;
+                        role = value[key].isContrib || false;
                     }
                 }
-                if (role >= 3) {
+                if (role == true) {
                     msg.channel.send("This user is already a Server Contributor and cannot be inducted any higher");
                 } else {
-                    RanksDB.get("users").set(`${user.id}.isContrib`, RanksDB.get(`users.${user.id}.isContrib`).value() || 0).set(`${user.id}.isContrib`, true).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write();
-                    for (let i = 0; i < Object.keys(RanksDB.get("users").value()).length; i++) {
-                        const key = Object.keys(RanksDB.get("users").value())[i];
-                        const value = RanksDB.get("users").value();
-                        global.contributors = [];
-                        if (value[key].isContrib) global.contributors.push(value[key].uid);
-                    }
+                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write().then(() => {
+                        global.reloadBotData();
+                    });
                     const userEmbed = new Discord.MessageEmbed()
                         .setTitle(`${user.username} has been inducted`)
                         .setColor(Color)
@@ -57,7 +53,7 @@ module.exports = {
                     msg.channel.send(userEmbed);
                 }
             }
-        } catch (e) {}
+        } catch (e) { console.log(e) }
     },
     init(Bot, Color, Version) {
 

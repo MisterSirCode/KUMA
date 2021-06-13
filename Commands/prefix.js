@@ -12,7 +12,7 @@ module.exports = {
     description: "",
     execute(msg, args, Bot, Color, Version, Prefix) {
         if (!global.isListening) return;
-        if (msg.member.hasPermission("MANAGE_GUILD") || msg.author.id == "317796835265871873") {
+        if (msg.member.hasPermission("MANAGE_GUILD") || msg.author.id == global.botOwner) {
             const pingEmbed = new Discord.MessageEmbed()
                 .setColor(Color)
                 .setAuthor("Prefix being updated...", `${msg.guild.iconURL()}`);

@@ -25,7 +25,7 @@ module.exports = {
                         msg.delete();
                     } catch(e) {}
                 }
-            } catch(e) {}
+            } catch (e) { console.log(e) }
         }
     },
     init(Bot, Color, Version) {

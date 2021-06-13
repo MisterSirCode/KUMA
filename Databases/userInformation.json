@@ -8,12 +8,14 @@
     "281764800734691329": {
       "rank": 2,
       "isBotOwner": false,
-      "uid": "281764800734691329"
+      "uid": "281764800734691329",
+      "isContrib": true
     },
     "259552936579956738": {
-      "rank": 1,
+      "rank": 0,
       "isBotOwner": false,
-      "uid": "259552936579956738"
+      "uid": "259552936579956738",
+      "isContrib": true
     },
     "254069642283188224": {
       "rank": 1,
@@ -59,6 +61,11 @@
       "isContrib": true,
       "isBotOwner": false,
       "uid": "222400243356925953"
+    },
+    "722889877154299904": {
+      "isContrib": true,
+      "isBotOwner": false,
+      "uid": "722889877154299904"
     }
   }
 }

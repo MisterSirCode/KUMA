@@ -3,7 +3,6 @@ const lowdb = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const RanksAdapter = new FileSync("./Databases/userInformation.json");
 const RanksDB = lowdb(RanksAdapter);
-
 function clamp(val, min, max) {
     return Math.min(Math.max(val, min), max);
 }
@@ -14,7 +13,7 @@ module.exports = {
     async execute(msg, args, Bot, Color, Version, Prefix) {
         if (!global.isListening) return;
         try {
-            if (global.netSuperusers.includes(msg.author.id)) {
+            if (global.netSuperusers.includes(msg.author.id) || msg.author.id == global.botOwner) {
                 let user;
                 let userid;
                 if (args.includes("<@") && args.includes(">")) {
@@ -41,15 +40,9 @@ module.exports = {
                 if (role >= 3) {
                     msg.channel.send("This user is already a Network Superuser and cannot be inducted any higher");
                 } else {
-                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write();
-                    for (let i = 0; i < Object.keys(RanksDB.get("users").value()).length; i++) {
-                        const key = Object.keys(RanksDB.get("users").value())[i];
-                        const value = RanksDB.get("users").value();
-                        global.globalMods = global.globalAdmins = global.netSuperusers = [];
-                        if (value[key].rank >= 1) global.globalMods.push(value[key].uid);
-                        if (value[key].rank >= 2) global.globalAdmins.push(value[key].uid);
-                        if (value[key].rank >= 3) global.netSuperusers.push(value[key].uid);
-                    }
+                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write().then(() => {
+                        global.reloadBotData();
+                    });
                     const userEmbed = new Discord.MessageEmbed()
                         .setTitle(`${user.username} has been inducted`)
                         .setColor(Color)
@@ -59,7 +52,7 @@ module.exports = {
                     msg.channel.send(userEmbed);
                 }
             }
-        } catch (e) {}
+        } catch (e) { console.log(e) }
     },
     init(Bot, Color, Version) {
 

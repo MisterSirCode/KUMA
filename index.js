@@ -17,11 +17,27 @@ for (const file of comFiles) {
     Bot.commands.set(commandFile.name, commandFile);
 }
 
+global.botOwner = "317796835265871873";
 global.prefix = "!";
 global.globalMods = [];
 global.globalAdmins = [];
 global.netSuperusers = [];
 global.contributors = [];
+
+global.reloadBotData = function() {
+    const RanksAdapter = new FileSync("./Databases/userInformation.json");
+    const RanksDB = lowdb(RanksAdapter);
+    global.globalMods = global.globalAdmins = global.netSuperusers = global.contributors = [];
+    for (let i = 0; i < Object.keys(RanksDB.get("users").value()).length; i++) {
+        const key = Object.keys(RanksDB.get("users").value())[i];
+        const value = RanksDB.get("users").value();
+        if (value[key].rank >= 1) global.globalMods.push(value[key].uid);
+        if (value[key].rank >= 2) global.globalAdmins.push(value[key].uid);
+        if (value[key].rank >= 3) global.netSuperusers.push(value[key].uid);
+        if (value[key].isContrib) global.contributors.push(value[key].uid);
+    }
+    botPresence("idle", `${Bot.guilds.cache.size} Servers`, "LISTENING");
+}
 
 Bot.on("message", async (msg) => {
     try {

@@ -69,7 +69,7 @@ module.exports = {
             if (global.contributors.includes(user.id)) {
                 ranks += "<:Contributor:810843786707992577> ";
             }
-            if (user.id == "317796835265871873") ranks += "<:GlobalBotOwner:750527063752048661> ";
+            if (user.id == global.botOwner) ranks += "<:GlobalBotOwner:750527063752048661> ";
             if (member.id) {
                 if (member.hasPermission("ADMINISTRATOR")) ranks += "<:ServerAdmin:750533242683261008> ";
                 if (msg.guild.ownerID == member.id) ranks += "<:ServerOwner:749995280769745057> ";
@@ -77,9 +77,7 @@ module.exports = {
             if (member.id) userEmbed.setTitle(`${member.displayName}`);
             userEmbed.setDescription(`${ranks}\n\nCreated: ${member.user.createdAt.toDateString()}\nDiscord Age: ${timeAgo(member.user.createdAt)}`);
             msg.channel.send(userEmbed);
-        } catch (e) {
-            console.log(e);
-        }
+        } catch (e) { console.log(e) }
     },
     init(Bot, Color, Version) {
 
