@@ -24,6 +24,7 @@ module.exports = {
         Bot.on("clickButton", async (button) => {
             if (button.id === "toggleListening") {
                 const NewBot = global.GBot;
+                button.defer();
                 global.isListening = !global.isListening;
                 const controlPanel = new Discord.MessageEmbed()
                     .setColor("#000000")
@@ -39,7 +40,6 @@ module.exports = {
                         toggleListening
                     ]
                 });
-                button.defer();
             }
         });
     }
