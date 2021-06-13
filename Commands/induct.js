@@ -40,9 +40,8 @@ module.exports = {
                 if (role >= 3) {
                     msg.channel.send("This user is already a Network Superuser and cannot be inducted any higher");
                 } else {
-                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write().then(() => {
-                        global.reloadBotData();
-                    });
+                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write();
+                    global.reloadBotData();
                     const userEmbed = new Discord.MessageEmbed()
                         .setTitle(`${user.username} has been inducted`)
                         .setColor(Color)

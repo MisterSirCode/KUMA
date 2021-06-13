@@ -41,9 +41,8 @@ module.exports = {
                 if (role < 1) {
                     msg.channel.send("This user is already a Member and cannot be deducted any lower");
                 } else {
-                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id).write().then(() => {
-                        global.reloadBotData();
-                    });
+                    RanksDB.get("users").set(`${user.id}.rank`, clamp(role + 1, 0, 3)).set(`${user.id}.isBotOwner`, false).set(`${user.id}.uid`, user.id);
+                    global.reloadBotData();
                     const userEmbed = new Discord.MessageEmbed()
                         .setTitle(`${user.username} has been deducted`)
                         .setColor(Color)
