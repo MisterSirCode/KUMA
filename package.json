@@ -1,0 +1,19 @@
+{
+  "name": "android-arthur",
+  "version": "1.0.0",
+  "description": "Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deepworld-Remake/Android-Arthur.git"
+  },
+  "author": "SirCode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deepworld-Remake/Android-Arthur/issues"
+  },
+  "homepage": "https://github.com/Deepworld-Remake/Android-Arthur#readme"
+}
