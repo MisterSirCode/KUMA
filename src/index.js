@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { REST } = require("@discordjs/rest");
-const { Routes } = require("discord-api-types/v9");
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 const config = require('./config.json');
 
 global.bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -25,7 +25,7 @@ global.bot.once('ready', () => {
             console.log('Started refreshing application (/) commands.');
     
             await rest.put(
-                Routes.applicationGuildCommands(global.bot.user.id, "237835843677585408"),
+                Routes.applicationGuildCommands(global.bot.user.id, '237835843677585408'),
                 { body: commands },
             );
     
@@ -43,15 +43,15 @@ global.bot.on('interactionCreate', async interaction => {
 		await global.bot.commands.get(interaction.commandName).execute(interaction);
 	} catch (error) {
         if (interaction.user.id === config.bot.owner) {
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+            await interaction.reply({ content: `error: ${error}`, ephemeral: true });
         }
 	}
 });
 
 global.bot.on('messageCreate', message => {
-    if (message.content === 'ping') {
-        message.channel.send('pong');
-    }
+    // if (message.content === 'arthurs prefix') {
+    //     message.channel.send();
+    // }
 });
 
 global.bot.login(config.bot.token);
