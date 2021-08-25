@@ -9,6 +9,7 @@ global.bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_ME
 global.bot.commands = new Collection();
 global.color = `#${config.bot.color}`;
 global.botOwner = config.bot.owner;
+global.ranks = ['Member', 'Global Moderator', 'Global Administrator', 'Global Superuser'];
 
 const commands = [];
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
