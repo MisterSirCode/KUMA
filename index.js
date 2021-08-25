@@ -7,6 +7,8 @@ const colors = require('colors');
 
 global.bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 global.bot.commands = new Collection();
+global.color = `#${config.bot.color}`;
+global.botOwner = config.bot.owner;
 
 const commands = [];
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));

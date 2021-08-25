@@ -3,36 +3,37 @@ const { MessageEmbed } = require('discord.js');
 const mongoose = require('mongoose');
 const Player = require('../mongo/player.js');
 
+const commandBuilder = new SlashCommandBuilder()
+    .setName('user')
+    .setDescription('See your own or someone elses public account');
+commandBuilder.addUserOption((option) =>
+    option.setName('user')
+        .setDescription('Account you want to view'));
+
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('user')
-		.setDescription('Log User Info'),
+	data: commandBuilder,
 	async execute(interaction) {
         mongoose.connect('mongodb://localhost/data', { useNewUrlParser: true, useUnifiedTopology: true });
-        if (Player.exists({ id: interaction.user.id })) {
-            const logEmbed = new MessageEmbed()
-                .setTitle('Updated Player Info');
+        const user = interaction.options.getUser('user');
+        if (user) {
+
+        } else {
+            if (await Player.exists({ id: interaction.user.id })) {
+                const logEmbed = new MessageEmbed()
+                    .setAuthor('Updated Account', `https://cdn.discordapp.com/avatars/${interaction.user.id}/${interaction.user.avatar}.png`)
+                    .addField('Username', `${interaction.user.username}#${interaction.user.discriminator}`)
+                    .setColor(global.color);
                 Player.updateOne({ id: interaction.user.id }, {
-                    name: interaction.user.name,
+                    name: interaction.user.username,
+                    descrim: interaction.user.discriminator,
                     avatar: interaction.user.avatar,
                     lastTime: interaction.createdAt
-                }).then(interaction.reply({embeds: [logEmbed], ephemeral: true }))
-                .catch(e => console.log(`(use.js) Updater Error: ${e}`));
-        } else {
-            const logEmbed = new MessageEmbed()
-                .setTitle('Added Player Info');
-            const newLog = new Player({
-                _id: mongoose.Types.ObjectId(),
-                id: interaction.user.id,
-                name: interaction.user.name,
-                avatar: interaction.user.avatar,
-                addedTime: interaction.createdAt,
-                lastTime: interaction.createdAt,
-                rank: 0
-            });
-            newLog.save()
-                .then(interaction.reply({embeds: [logEmbed], ephemeral: true }))
-                .catch(e => console.log(`(use.js) Setter Error: ${e}`));
+                }).then(() => interaction.reply({ embeds: [logEmbed] }))
+                    .catch(e => console.log(`(account.js) Updater Error: ${e}`));
+            } else {
+                interaction.reply("Invalid")
+                    .then(() => interaction.deleteReply());
+            }
         }
 	},
 };
