@@ -5,12 +5,12 @@ const Player = require('../mongo/player.js');
 
 const commandBuilder = new SlashCommandBuilder()
     .setName('setrank')
-    .setDescription('Superuser Only - Set an accounts ranks');
-commandBuilder.addUserOption((option) =>
+    .setDescription('(RANK 3 ONLY) - Set an accounts rank')
+    .addUserOption((option) =>
     option.setName('user')
         .setDescription('Account you want to edit')
-        .setRequired(true));
-commandBuilder.addIntegerOption((option) =>
+        .setRequired(true))
+    .addIntegerOption((option) =>
     option.setName('rank')
         .setDescription('Rank you want to set')
         .addChoices([
