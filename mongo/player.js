@@ -8,7 +8,9 @@ const playerSchema = mongoose.Schema({
     avatar: String,
     addedTime: String,
     lastTime: String,
-    rank: Number
+    rank: Number,
+    level: Number,
+    exp: Number
 });
 
 module.exports = mongoose.model("Player", playerSchema);
