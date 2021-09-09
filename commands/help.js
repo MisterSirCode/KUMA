@@ -7,9 +7,13 @@ module.exports = {
 		.setDescription('Get some help'),
 	async execute(interaction) {
         const helpEmbed = new MessageEmbed()
-            .setTitle('Arthur\'s Commands')
-            .addField('/help', 'Get some help', true)
-            .addField('/ping', 'Ping Arthur', true);
-		await interaction.reply({ embeds: [helpEmbed] });
+            .setTitle('Arthur\'s Commands');
+			const commands = global.bot.commands;
+			console.log(Object.keys(commands));
+			Object.keys(commands).forEach((key) => {
+				const command = commands[key];
+				helpEmbed.addField('/' + command.data.name, command.data.description)
+			});
+		await interaction.reply({ embeds: [helpEmbed], ephemeral: true });
 	},
 };
