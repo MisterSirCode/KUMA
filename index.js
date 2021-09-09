@@ -18,13 +18,13 @@ global.badges = ['', '<:GlobalBotMod:750528606924570745>',
     '<:DiscordNitro:747511562830610594>',
     '<:Boost:749992806357008504>'];
 
-const commands = [];
+global.commands = [];
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     global.bot.commands.set(command.data.name, command);
-    commands.push(command.data.toJSON());
+    global.commands.push(command.data.toJSON());
 }
 
 const rest = new REST({ version: '9' }).setToken(config.bot.token);
@@ -36,7 +36,8 @@ global.bot.once('ready', () => {
             console.log('Started refreshing application commands.'.yellow);
 
             await rest.put(
-                Routes.applicationGuildCommands(global.bot.user.id, '237835843677585408'),
+                // Routes.applicationGuildCommands(global.bot.user.id, '237835843677585408'),
+                Routes.applicationCommands(global.bot.user.id),
                 { body: commands },
             );
 

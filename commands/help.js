@@ -8,11 +8,8 @@ module.exports = {
 	async execute(interaction) {
         const helpEmbed = new MessageEmbed()
             .setTitle('Arthur\'s Commands');
-			const commands = global.bot.commands;
-			console.log(Object.keys(commands));
-			Object.keys(commands).forEach((key) => {
-				const command = commands[key];
-				helpEmbed.addField('/' + command.data.name, command.data.description)
+			global.commands.forEach((command) => {
+				helpEmbed.addField('/' + command.name, command.description, true)
 			});
 		await interaction.reply({ embeds: [helpEmbed], ephemeral: true });
 	},
