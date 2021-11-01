@@ -36,8 +36,8 @@ global.bot.once('ready', () => {
             console.log('Started refreshing application commands.'.yellow);
 
             await rest.put(
-                // Routes.applicationGuildCommands(global.bot.user.id, '237835843677585408'),
-                Routes.applicationCommands(global.bot.user.id),
+                Routes.applicationGuildCommands(global.bot.user.id, '237835843677585408'),
+                //Routes.applicationCommands(global.bot.user.id),
                 { body: commands },
             );
 

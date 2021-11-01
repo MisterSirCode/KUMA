@@ -42,7 +42,10 @@ module.exports = {
                 avatar: user.avatar,
                 addedTime: interaction.createdAt,
                 lastTime: interaction.createdAt,
-                rank: 0
+                rank: 0,
+                level: 0,
+                exp: 0,
+                contrib: false
             });
             newLog.save()
                 .then(() => interaction.reply({ embeds: [logEmbed] }))

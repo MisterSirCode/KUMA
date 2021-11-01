@@ -10,7 +10,8 @@ const playerSchema = mongoose.Schema({
     lastTime: String,
     rank: Number,
     level: Number,
-    exp: Number
+    exp: Number,
+    contrib: Boolean
 });
 
 module.exports = mongoose.model("Player", playerSchema);
