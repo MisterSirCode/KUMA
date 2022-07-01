@@ -4,18 +4,13 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Ping Arthur').addIntegerOption((option) => option.setName('hidden')
-        .setDescription(`If you want the output hidden or not`)
-        .addChoices([
-            ['No', 0],
-            ['Yes', 1],
-    ])),
+		.setDescription('Ping Arthur'),
 	async execute(interaction) {
+		const user = global.bot.user;
 		const pingEmbed = new MessageEmbed()
-			.setAuthor(`${global.bot.user.username}#${global.bot.user.descriminator}`, `https://cdn.discordapp.com/avatars/${global.bot.user.id}/${global.bot.user.avatar}.png`)
-			.addField('Guilds', `${global.bot.guilds.cache.size}`)
-			.addField('Ping', `${Date.now() - interaction.createdTimestamp}ms`)
-			.addField('API Ping', `${Math.round(global.bot.ws.ping)}ms`)
+			.setAuthor(`${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
+			.setDescription(`Process Identifier: ${process.pid}`)
+			.addField('Ping', `${Math.abs(Date.now() - interaction.createdTimestamp)}ms ${Math.round(global.bot.ws.ping)}ams`)
 			.setColor(global.color);
 		await interaction.reply({ embeds: [pingEmbed], ephemeral: interaction.options.getInteger('hidden') == 1 ? true : false});
 	},

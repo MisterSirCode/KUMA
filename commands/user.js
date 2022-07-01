@@ -3,27 +3,27 @@ const { MessageEmbed } = require('discord.js');
 
 const commandBuilder = new SlashCommandBuilder()
     .setName('user')
-    .setDescription('See user information privately')
+    .setDescription('See your own or someone elses arthur profile')
     .addUserOption((option) => option.setName('user')
         .setDescription('Account you want to view')
-        .setRequired(true))
-    .addIntegerOption((option) => option.setName('hidden')
-        .setDescription(`If you want the output hidden or not`)
-        .addChoices([
-            ['No', 0],
-            ['Yes', 1],
-    ]));
+        .setRequired(true));
 
 module.exports = {
 	data: commandBuilder,
 	async execute(interaction) {
-        const user = interaction.options.getUser('user') ? interaction.options.getUser('user') : interaction.user;
-        const member = await interaction.guild.members.fetch(user.id);
+        const specUsr = interaction.options.getUser('user');
+        const specMem = interaction.options.getMember('user');
+
+        const user = specUsr ? specUsr : interaction.user;
+        const memb = specMem ? specMem : interaction.member;
+
+        const cret = user.createdAt;
+        const join = memb.joinedAt;
         const profileEmbed = new MessageEmbed()
-            .setAuthor(`Information for ${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
-            .setDescription(`Created ${user.createdAt}`)
-            .setFooter(`Joined ${member.joinedAt}`, `${interaction.guild.iconURL()}`)
-            .setColor(global.color);
-        interaction.reply({ embeds: [profileEmbed], ephemeral: interaction.options.getInteger('hidden') == 1 ? true : false});
+            .setAuthor(`Profile of ${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
+            .setColor(global.color)
+            .addField('Creation Date', `${cret.toDateString()}, ${(new Date(Date.now())).getYear() - cret.getYear()} years ago`)
+            .addField('Local Join Date', `${join.toDateString()}, ${(new Date(Date.now())).getYear() - join.getYear()} years ago`);
+        interaction.reply({ embeds: [profileEmbed] });
 	},
 };
