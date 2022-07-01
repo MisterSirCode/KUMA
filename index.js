@@ -4,7 +4,10 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const config = require('./config.json');
 const colors = require('colors');
-const { measureMemory } = require('vm');
+
+process.on('uncaughtException', function (err) {
+    console.warn(err);
+});
 
 global.bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 global.bot.commands = new Collection();
