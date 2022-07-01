@@ -56,10 +56,10 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on('messageCreate', message => { 
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
-        if (txt == 'arthur.shutdown') {
+        if (txt == 'codur.shutdown') {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
-        } else if (txt == 'arthur.restart') {
+        } else if (txt == 'codur.restart') {
             process.on("exit", function () {
                 require("child_process").spawn(process.argv.shift(), process.argv, {
                     cwd: process.cwd(),
@@ -69,6 +69,21 @@ global.bot.on('messageCreate', message => {
             });
             console.log('Restarting...'.red);
             message.reply('Emergency Restart Started').then(process.exit);
+        } else if (txt.startsWith('coder.reload')) {
+            const cmdName = txt.split(' ')[1];
+            if(message.client.commands.get(cmdName)){
+                const command = message.client.commands.get(cmdName) ||
+                message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+                if (!command) return message.channel.send(`No command named \`${cmdName}\``);
+                delete require.cache[require.resolve(`./commands/${cmdName}.js`)];
+            }
+            try {
+                const newCommand = require(`./${cmdName}.js`);
+                message.client.commands.set(cmdName, newCommand);
+                message.channel.send(`Command ${cmdName} Reloaded`);
+            } catch (error) {
+                message.reply({ content: `Error: ${error}`, ephemeral: true })
+            }
         }
     }
 });
