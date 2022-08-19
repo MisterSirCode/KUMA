@@ -3,7 +3,9 @@ const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const config = require('./config.json');
+const pkg = require('./package.json');
 const colors = require('colors');
+require("dotenv").config();
 
 process.on('uncaughtException', function (err) {
     console.warn(err);
@@ -13,6 +15,7 @@ global.bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_ME
 global.bot.commands = new Collection();
 global.color = `#${config.bot.color}`;
 global.botOwner = config.bot.owner;
+global.version = pkg.version;
 
 global.commands = [];
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -59,7 +62,7 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on('messageCreate', message => { 
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
-        if (txt == 'codur.shutdown') {
+        if (txt == 'arthur.shutdown') {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
         } else if (txt == 'codur.restart') {
