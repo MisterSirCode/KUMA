@@ -27,13 +27,13 @@ colors.bold(' + ').green
 
 global.bot.once('ready', () => {
     console.log('\n\n');
-    console.log('   ▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█'.magenta);
-    console.log('   ▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█'.magenta);
-    console.log('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█\n\n'.magenta);
-    console.log(colors.bold(' + ').green + `Logged in as `.cyan + (global.bot.user.tag).red + '\n');
+    console.log(colors.bold('   ▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█').magenta);
+    console.log(colors.bold('   ▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█').magenta);
+    console.log(colors.bold('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█\n\n').magenta);
+    console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
     (async () => {
         try {
-            console.log(colors.bold(' + ').green + 'Started Reloading Commands'.yellow);
+            console.log(colors.bold(' = ').yellow + 'Started Reloading Commands'.yellow);
             await rest.put(
                 Routes.applicationGuildCommands(global.bot.user.id, '731511745755217931'),
                 //Routes.applicationCommands(global.bot.user.id),
