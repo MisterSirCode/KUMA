@@ -1,4 +1,4 @@
-const { MessageEmbed, SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 const commandBuilder = new SlashCommandBuilder()
     .setName('ban')
@@ -11,25 +11,22 @@ const commandBuilder = new SlashCommandBuilder()
 module.exports = {
 	data: commandBuilder,
 	async execute(interaction) {
-        if (!interaction.inGuild()) {
-            const failEmbed = new MessageEmbed()
-                .setTitle(`You cant ban a user outside a guild`)
-                .setColor(global.color);
-            interaction.reply({ embeds: [failEmbed], ephemeral: true });
-            return;
-        }
+        if (!interaction.inGuild())
+            interaction.reply('You cant ban that person. Sorry');
         if (interaction.user.member.permissions.has('BAN_MEMBERS')) {
             const userOption = interaction.options.getUser('user');
             const member = interaction.guild.members.fetch(userOption);
             if (member.bannable) {
                 member.ban()
                 .then(() => {
-                    const banEmbed = new MessageEmbed()
-                        .setAuthor(`${userOption.username}#${userOption.descriminator}`, `https://cdn.discordapp.com/avatars/${userOption.id}/${userOption.avatar}.png`)
-                        .setTitle(`${userOption.username} was banned from the server`)
-                        .setColor(global.color);
+                    const banEmbed = new EmbedBuilder()
+                    .setTitle(`${userOption.username} was banned from the server`)
+                    .setAuthor({
+                        name: `${userOption.username}#${userOption.discriminator}`,
+                        iconURL: `https://cdn.discordapp.com/avatars/${userOption.id}/${userOption.avatar}.png`
+                    })
+                    .setColor(global.color);
                     interaction.reply({ embeds: [banEmbed], ephemeral: true });
-                    return;
                 })
                 .catch((e) => interaction.reply({ content: `Ban failed with error, ${e}`, ephemeral: true}));
             }

@@ -1,4 +1,4 @@
-const { MessageEmbed, SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 const commandBuilder = new SlashCommandBuilder()
     .setName('user')
@@ -18,11 +18,32 @@ module.exports = {
 
         const cret = user.createdAt;
         const join = memb.joinedAt;
-        const profileEmbed = new MessageEmbed()
-            .setAuthor(`Profile of ${user.username}#${user.discriminator}`, `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
-            .setColor(global.color)
-            .addField('Creation Date', `${cret.toDateString()}, ${(new Date(Date.now())).getYear() - cret.getYear()} years ago`)
-            .addField('Local Join Date', `${join.toDateString()}, ${(new Date(Date.now())).getYear() - join.getYear()} years ago`);
+        const yr = (new Date(Date.now())).getYear();
+        const cretAge = yr - cret.getYear();
+        const joinAge = yr - join.getYear();
+        const profileEmbed = new EmbedBuilder()
+            .setAuthor({ 
+                name: `Profile of ${user.username}#${user.discriminator}`, 
+                iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+            })
+            .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
+            .setDescription(`${user.id}`)
+            .addFields({
+                name: 'Creation Date',
+                value: `${cret.toDateString()}${cretAge > 0 ? ', ' + cretAge + ' years ago' : ''}`
+            }, {
+                name: 'Local Join Date',
+                value: `${join.toDateString()}${joinAge > 0 ? ', ' + joinAge + ' years ago' : ''}`
+            })
+            .setColor(global.color);
+        let tmpu = await user.fetch({ force: true });
+        if (tmpu.id) profileEmbed.setColor(tmpu.hexAccentColor == null ? global.color : tmpu.hexAccentColor);
+        console.log(tmpu);
+        if (user.id == global.botOwner)
+            profileEmbed.setFooter({
+                text: 'Owner of Kuma',
+                iconURL: 'https://cdn.discordapp.com/emojis/747511563082137710.webp?size=128&quality=lossless'
+            });
         interaction.reply({ embeds: [profileEmbed] });
 	},
 };

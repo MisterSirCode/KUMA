@@ -24,7 +24,6 @@ for (const file of commandFiles) {
 }
 
 global.bot.once('ready', () => {
-    console.clear();
     console.log(`Logged in as `.cyan + (global.bot.user.tag).red + '\n');
     (async () => {
         try {
@@ -34,7 +33,7 @@ global.bot.once('ready', () => {
                 //Routes.applicationCommands(global.bot.user.id),
                 { body: commands },
             );
-            console.log('Successfully Reloaded Commands'.green);
+            console.log('Successfully Reloaded Commands\n\n'.green);
         } catch (error) {
             console.error(error);
         }
@@ -49,6 +48,7 @@ global.bot.on('interactionCreate', async interaction => {
     } catch (error) {
         if (interaction.user.id === config.bot.owner) {
             await interaction.reply({ content: `Error: ${error}`, ephemeral: true });
+            console.log(error);
         }
     }
 });
@@ -56,10 +56,10 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on('messageCreate', message => { 
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
-        if (txt == (bot.username.toLowerCase() + '.shutdown')) {
+        if (txt == (bot.user.username.toLowerCase() + '.shutdown')) {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
-        } else if (txt == (bot.username.toLowerCase() + '.restart')) {
+        } else if (txt == (bot.user.username.toLowerCase() + '.restart')) {
             process.on('exit', function () {
                 require('child_process').spawn(process.argv.shift(), process.argv, {
                     cwd: process.cwd(),
@@ -69,7 +69,7 @@ global.bot.on('messageCreate', message => {
             });
             console.log('Restarting...'.red);
             message.reply('Emergency Restart Started').then(process.exit);
-        } else if (txt.startsWith(bot.username.toLowerCase() + '.reload')) {
+        } else if (txt.startsWith(bot.user.username.toLowerCase() + '.reload')) {
             const cmdName = txt.split(' ')[1];
             if(message.client.commands.get(cmdName)){
                 const command = message.client.commands.get(cmdName) ||
@@ -89,4 +89,4 @@ global.bot.on('messageCreate', message => {
 });
 
 global.bot.login(process.env.TOKEN);
-console.clear();
+//console.clear();
