@@ -1,5 +1,4 @@
-const { Client, Collection, GatewayIntentBits, Partials, Routes } = require('discord.js');
-const { REST } = require('@discordjs/rest');
+const { Client, Collection, REST, GatewayIntentBits, Partials, Routes } = require('discord.js');
 const config = require('./config.json');
 const pkg = require('./package.json');
 const colors = require('colors');
