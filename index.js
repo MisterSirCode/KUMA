@@ -62,10 +62,10 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on('messageCreate', message => { 
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
-        if (txt == 'arthur.shutdown') {
+        if (txt == (bot.username.toLowerCase() + '.shutdown')) {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
-        } else if (txt == 'codur.restart') {
+        } else if (txt == (bot.username.toLowerCase() + '.restart')) {
             process.on("exit", function () {
                 require("child_process").spawn(process.argv.shift(), process.argv, {
                     cwd: process.cwd(),
@@ -75,7 +75,7 @@ global.bot.on('messageCreate', message => {
             });
             console.log('Restarting...'.red);
             message.reply('Emergency Restart Started').then(process.exit);
-        } else if (txt.startsWith('coder.reload')) {
+        } else if (txt.startsWith(bot.username.toLowerCase() + '.reload')) {
             const cmdName = txt.split(' ')[1];
             if(message.client.commands.get(cmdName)){
                 const command = message.client.commands.get(cmdName) ||
