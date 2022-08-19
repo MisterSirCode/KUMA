@@ -89,4 +89,4 @@ global.bot.on('messageCreate', message => {
 });
 
 global.bot.login(process.env.TOKEN);
-//console.clear();
+console.clear();
