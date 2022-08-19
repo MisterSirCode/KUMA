@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+const { Routes } = require('discord-api-types/v10');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
 const config = require('./config.json');
 const pkg = require('./package.json');
 const colors = require('colors');
@@ -16,18 +16,16 @@ global.bot.commands = new Collection();
 global.color = `#${config.bot.color}`;
 global.botOwner = config.bot.owner;
 global.version = pkg.version;
-
 global.commands = [];
+
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+const rest = new REST({ version: '10' });
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     global.bot.commands.set(command.data.name, command);
     global.commands.push(command.data.toJSON());
 }
-
-console.log(process.env.TOKEN);
-const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 global.bot.once('ready', () => {
     console.log(`Logged in as ${global.bot.user.tag}!\n`.cyan);
