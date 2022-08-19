@@ -25,8 +25,8 @@ for (const file of commandFiles) {
 
 global.bot.once('ready', () => {
     console.log('\n\n');
-    console.log('▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█\n'.magenta);
-    console.log('▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█\n'.magenta);
+    console.log('▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█'.magenta);
+    console.log('▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█'.magenta);
     console.log('▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█\n\n'.magenta);
     console.log(`Logged in as `.cyan + (global.bot.user.tag).red + '\n');
     (async () => {
