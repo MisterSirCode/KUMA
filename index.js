@@ -1,11 +1,11 @@
 const fs = require('fs');
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
-const { Routes } = require('discord-api-types/v10');
 const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v10');
 const config = require('./config.json');
 const pkg = require('./package.json');
 const colors = require('colors');
-require("dotenv").config();
+require('dotenv').config();
 
 process.on('uncaughtException', function (err) {
     console.warn(err);
@@ -13,7 +13,7 @@ process.on('uncaughtException', function (err) {
 
 global.bot = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 global.bot.commands = new Collection();
-global.color = `#${config.bot.color}`;
+global.color = '#' + config.bot.color;
 global.botOwner = config.bot.owner;
 global.version = pkg.version;
 global.commands = [];
@@ -65,11 +65,11 @@ global.bot.on('messageCreate', message => {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
         } else if (txt == (bot.username.toLowerCase() + '.restart')) {
-            process.on("exit", function () {
-                require("child_process").spawn(process.argv.shift(), process.argv, {
+            process.on('exit', function () {
+                require('child_process').spawn(process.argv.shift(), process.argv, {
                     cwd: process.cwd(),
                     detached : true,
-                    stdio: "inherit"
+                    stdio: 'inherit'
                 });
             });
             console.log('Restarting...'.red);
