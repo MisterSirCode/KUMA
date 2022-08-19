@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const config = require('./config.json');
@@ -11,7 +11,7 @@ process.on('uncaughtException', function (err) {
     console.warn(err);
 });
 
-global.bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+global.bot = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 global.bot.commands = new Collection();
 global.color = `#${config.bot.color}`;
 global.botOwner = config.bot.owner;
@@ -26,6 +26,7 @@ for (const file of commandFiles) {
     global.commands.push(command.data.toJSON());
 }
 
+console.log(process.env.TOKEN);
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 global.bot.once('ready', () => {
