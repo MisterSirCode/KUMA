@@ -23,8 +23,6 @@ for (const file of commandFiles) {
     global.commands.push(command.data.toJSON());
 }
 
-colors.
-
 global.bot.once('ready', () => {
     console.log('\n\n');
     console.log('▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█\n'.magenta);
