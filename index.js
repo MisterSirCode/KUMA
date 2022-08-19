@@ -1,9 +1,11 @@
 const fs = require('fs');
 const { Client, Collection, GatewayIntentBits, Partials, Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
+const rest = new REST({ version: '10' });
 const config = require('./config.json');
 const pkg = require('./package.json');
 const colors = require('colors');
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 require('dotenv').config();
 
 process.on('uncaughtException', function (err) {
@@ -17,8 +19,6 @@ global.botOwner = config.bot.owner;
 global.version = pkg.version;
 global.commands = [];
 
-const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-const rest = new REST({ version: '10' });
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
