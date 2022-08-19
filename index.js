@@ -23,21 +23,23 @@ for (const file of commandFiles) {
     global.commands.push(command.data.toJSON());
 }
 
+colors.bold(' + ').green
+
 global.bot.once('ready', () => {
     console.log('\n\n');
-    console.log('▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█'.magenta);
-    console.log('▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█'.magenta);
-    console.log('▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█\n\n'.magenta);
-    console.log(`Logged in as `.cyan + (global.bot.user.tag).red + '\n');
+    console.log('   ▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█'.magenta);
+    console.log('   ▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█'.magenta);
+    console.log('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█\n\n'.magenta);
+    console.log(colors.bold(' + ').green + `Logged in as `.cyan + (global.bot.user.tag).red + '\n');
     (async () => {
         try {
-            console.log('Started Reloading Commands'.yellow);
+            console.log(colors.bold(' + ').green + 'Started Reloading Commands'.yellow);
             await rest.put(
                 Routes.applicationGuildCommands(global.bot.user.id, '731511745755217931'),
                 //Routes.applicationCommands(global.bot.user.id),
                 { body: commands },
             );
-            console.log('Successfully Reloaded Commands\n\n'.green);
+            console.log(colors.bold(' + ').green + 'Successfully Reloaded Commands\n\n'.green);
         } catch (error) {
             console.error(error);
         }
