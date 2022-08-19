@@ -1,6 +1,7 @@
 const { Client, Collection, REST, GatewayIntentBits, Partials, Routes } = require('discord.js');
 const config = require('./config.json');
 const pkg = require('./package.json');
+const inquirer = require('inquirer');
 const colors = require('colors');
 const fs = require('fs');
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -29,7 +30,8 @@ global.bot.once('ready', () => {
     console.log('\n\n');
     console.log(colors.bold('   ▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█').magenta);
     console.log(colors.bold('   ▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█').magenta);
-    console.log(colors.bold('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█\n\n').magenta);
+    console.log(colors.bold('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█').magenta);
+    console.log(colors.bold(`   v${global.version}\n\n`).magenta);
     console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
     (async () => {
         try {
