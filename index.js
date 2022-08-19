@@ -1,16 +1,15 @@
-const fs = require('fs');
 const { Client, Collection, GatewayIntentBits, Partials, Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-const rest = new REST({ version: '10' });
 const config = require('./config.json');
 const pkg = require('./package.json');
 const colors = require('colors');
+const fs = require('fs');
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 require('dotenv').config();
 
-process.on('uncaughtException', function (err) {
-    console.warn(err);
-});
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
+process.on('uncaughtException', function (err) { console.warn(err); });
 
 global.bot = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 global.bot.commands = new Collection();
@@ -19,7 +18,6 @@ global.botOwner = config.bot.owner;
 global.version = pkg.version;
 global.commands = [];
 
-
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     global.bot.commands.set(command.data.name, command);
@@ -27,18 +25,17 @@ for (const file of commandFiles) {
 }
 
 global.bot.once('ready', () => {
-    console.log(`Logged in as ${global.bot.user.tag}!\n`.cyan);
+    console.clear();
+    console.log(`Logged in as `.cyan + (global.bot.user.tag).red + '\n');
     (async () => {
         try {
-            console.log('Started refreshing application commands.'.yellow);
-
+            console.log('Started Reloading Commands'.yellow);
             await rest.put(
                 Routes.applicationGuildCommands(global.bot.user.id, '731511745755217931'),
                 //Routes.applicationCommands(global.bot.user.id),
                 { body: commands },
             );
-
-            console.log('Successfully reloaded application commands.'.green);
+            console.log('Successfully Reloaded Commands'.green);
         } catch (error) {
             console.error(error);
         }
@@ -92,4 +89,5 @@ global.bot.on('messageCreate', message => {
     }
 });
 
-global.bot.login(config.bot.token);
+global.bot.login(process.env.TOKEN);
+console.clear();
