@@ -26,7 +26,7 @@ for (const file of commandFiles) {
     global.commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(config.bot.token);
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 global.bot.once('ready', () => {
     console.log(`Logged in as ${global.bot.user.tag}!\n`.cyan);
