@@ -4,6 +4,7 @@ const pkg = require('./package.json');
 const inquirer = require('inquirer');
 const colors = require('colors');
 const fs = require('fs');
+const os = require('os')
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 require('dotenv').config();
 
@@ -91,6 +92,16 @@ global.bot.on('messageCreate', message => {
             } catch (error) {
                 message.reply({ content: `Error: ${error}`, ephemeral: true })
             }
+        } else if (txt.startsWith(bot.user.username.toLowerCase() + '.os_host')) {
+            const logEmbed = new EmbedBuilder()
+                .addFields({
+                    name: 'Platform',
+                    value: `${os.platform()} - ${os.release}`
+                }, {
+                    name: 'Host Type',
+                    value: `${os.type()}`
+                });
+            message.channel.send({ embeds: [pingEmbed] });
         }
     }
 });
