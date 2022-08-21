@@ -120,13 +120,17 @@ global.bot.on('messageCreate', message => {
                 });
             message.channel.send({ embeds: [logEmbed] });
         } else if (txt.startsWith(name + ' reload_REST')) {
-            message.channel.send(`Reloading all global REST commands...`);
-            await reloadCommands();
-            message.channel.send('Global slash commands updated')
+            (async function() {
+                message.channel.send(`Reloading all global REST commands...`);
+                await reloadCommands();
+                message.channel.send('Global slash commands updated');
+            })();
         } else if (txt.startsWith(name + ' reload_REST_local')) {
-            message.channel.send(`Reloading all local REST commands...`);
-            await reloadLocalCommands();
-            message.channel.send('Local slash commands updated for this server')
+            (async function() {
+                message.channel.send(`Reloading all local REST commands...`);
+                await reloadLocalCommands();
+                message.channel.send('Local slash commands updated for this server');
+            })();
         }
     }
 });
