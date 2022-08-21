@@ -37,8 +37,7 @@ global.bot.once('ready', () => {
         try {
             console.log(colors.bold(' = ').yellow + 'Started Reloading Commands'.yellow);
             await rest.put(
-                Routes.applicationGuildCommands(global.bot.user.id, '731511745755217931'),
-                //Routes.applicationCommands(global.bot.user.id),
+                Routes.applicationCommands(global.bot.user.id),
                 { body: commands },
             );
             console.log(colors.bold(' + ').green + 'Successfully Reloaded Commands\n\n'.green);
