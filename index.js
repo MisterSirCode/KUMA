@@ -29,8 +29,6 @@ for (const file of commandFiles) {
     global.commands.push(command.data.toJSON());
 }
 
-colors.bold(' + ').green
-
 global.bot.once('ready', () => {
     console.log('\n\n');
     console.log(colors.bold('   ▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█').magenta);
@@ -38,19 +36,33 @@ global.bot.once('ready', () => {
     console.log(colors.bold('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█').magenta);
     console.log(colors.bold(`   v${global.version}\n\n`).magenta);
     console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
-    (async () => {
-        try {
-            console.log(colors.bold(' = ').yellow + 'Started Reloading Commands'.yellow);
-            await rest.put(
-                Routes.applicationCommands(global.bot.user.id),
-                { body: commands },
-            );
-            console.log(colors.bold(' + ').green + 'Successfully Reloaded Commands\n\n'.green);
-        } catch (error) {
-            console.error(error);
-        }
-    })();
 });
+
+async function reloadCommands() {
+    try {
+        console.log(colors.bold(' = ').yellow + 'Started Reloading Commands'.yellow);
+        await rest.put(
+            Routes.applicationCommands(global.bot.user.id),
+            { body: commands },
+        );
+        console.log(colors.bold(' + ').green + 'Successfully Reloaded Commands\n\n'.green);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function reloadLocalCommands() {
+    try {
+        console.log(colors.bold(' = ').yellow + 'Started Reloading Commands'.yellow);
+        await rest.put(
+            Routes.applicationGuildCommands(global.bot.user.id, '731511745755217931'),
+            { body: commands },
+        );
+        console.log(colors.bold(' + ').green + 'Successfully Reloaded Commands\n\n'.green);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 global.bot.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
@@ -68,10 +80,11 @@ global.bot.on('interactionCreate', async interaction => {
 global.bot.on('messageCreate', message => { 
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
-        if (txt == (bot.user.username.toLowerCase() + '.shutdown')) {
+        let name = bot.user.username.toLowerCase();
+        if (txt.startsWith(name + ' shutdown')) {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
-        } else if (txt == (bot.user.username.toLowerCase() + '.restart')) {
+        } else if (txt.startsWith(name + ' restart')) {
             process.on('exit', function () {
                 require('child_process').spawn(process.argv.shift(), process.argv, {
                     cwd: process.cwd(),
@@ -81,7 +94,7 @@ global.bot.on('messageCreate', message => {
             });
             console.log('Restarting...'.red);
             message.reply('Emergency Restart Started').then(process.exit);
-        } else if (txt.startsWith(bot.user.username.toLowerCase() + '.reload')) {
+        } else if (txt.startsWith(name + ' reload')) {
             const cmdName = txt.split(' ')[1];
             if(message.client.commands.get(cmdName)){
                 const command = message.client.commands.get(cmdName) ||
@@ -96,7 +109,7 @@ global.bot.on('messageCreate', message => {
             } catch (error) {
                 message.reply({ content: `Error: ${error}`, ephemeral: true })
             }
-        } else if (txt.startsWith(bot.user.username.toLowerCase() + '.os_host')) {
+        } else if (txt.startsWith(name + ' os_host')) {
             const logEmbed = new EmbedBuilder()
                 .addFields({
                     name: 'Platform',
@@ -106,6 +119,14 @@ global.bot.on('messageCreate', message => {
                     value: `${os.type()}`
                 });
             message.channel.send({ embeds: [logEmbed] });
+        } else if (txt.startsWith(name + ' reload_REST')) {
+            message.channel.send(`Reloading all global REST commands...`);
+            await reloadCommands();
+            message.channel.send('Global slash commands updated')
+        } else if (txt.startsWith(name + ' reload_REST_local')) {
+            message.channel.send(`Reloading all local REST commands...`);
+            await reloadLocalCommands();
+            message.channel.send('Local slash commands updated for this server')
         }
     }
 });
