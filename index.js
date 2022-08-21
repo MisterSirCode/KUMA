@@ -1,4 +1,4 @@
-const { Client, Collection, REST, GatewayIntentBits, Partials, Routes } = require('discord.js');
+const { Client, Collection, REST, GatewayIntentBits, Partials, Routes, EmbedBuilder } = require('discord.js');
 const config = require('./config.json');
 const pkg = require('./package.json');
 const inquirer = require('inquirer');
@@ -12,7 +12,11 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
 process.on('uncaughtException', function (err) { console.warn(err); });
 
-global.bot = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
+global.bot = new Client({ intents: [
+    GatewayIntentBits.Guilds, 
+    GatewayIntentBits.GuildMessages, 
+    GatewayIntentBits.MessageContent
+], partials: [Partials.Channel] });
 global.bot.commands = new Collection();
 global.color = '#' + config.bot.color;
 global.botOwner = config.bot.owner;
@@ -101,7 +105,7 @@ global.bot.on('messageCreate', message => {
                     name: 'Host Type',
                     value: `${os.type()}`
                 });
-            message.channel.send({ embeds: [pingEmbed] });
+            message.channel.send({ embeds: [logEmbed] });
         }
     }
 });
