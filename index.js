@@ -1,4 +1,5 @@
-const { Client, Collection, REST, GatewayIntentBits, Partials, Routes, EmbedBuilder } = require('discord.js');
+const { Client, Collection, REST, GatewayIntentBits, 
+        Partials, Routes, EmbedBuilder, ActivityType } = require('discord.js');
 const config = require('./config.json');
 const pkg = require('./package.json');
 const inquirer = require('inquirer');
@@ -31,11 +32,19 @@ for (const file of commandFiles) {
 }
 
 global.bot.once('ready', () => {
+    global.bot.user.setPresence({
+        activities: [{
+            name: 'v' + global.version,
+            type: ActivityType.Streaming,
+            url: 'https://www.twitch.tv/mistersircode'
+        }],
+        status: 'idle'
+    })
     console.log('\n\n');
-    console.log(colors.bold('   ▒█░▄▀ ▒█░▒█ ▒█▀▄▀█ ░█▀▀█').magenta);
-    console.log(colors.bold('   ▒█▀▄░ ▒█░▒█ ▒█▒█▒█ ▒█▄▄█').magenta);
-    console.log(colors.bold('   ▒█░▒█ ░▀▄▄▀ ▒█░░▒█ ▒█░▒█').magenta);
-    console.log(colors.bold(`   v${global.version}\n\n`).magenta);
+    console.log(colors.bold('    █ ▄▀ █  █ █▀▄▀█ █▀▀█').magenta);
+    console.log(colors.bold('    █▀▄  █  █ █ █ █ █▄▄█').magenta);
+    console.log(colors.bold('    █  █ ▀▄▄▀ █   █ █  █').magenta);
+    console.log(colors.bold(`    v${global.version}\n\n`).magenta);
     console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
 });
 
