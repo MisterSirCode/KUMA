@@ -21,6 +21,15 @@
     "discord-api-types": "^0.22.0",
     "discord.js": "^14.2.0",
     "dotenv": "^16.0.1",
-    "inquirer": "^8.0.0"
+    "inquirer": "^8.0.0",
+    "pkg": "^5.8.0"
+  },
+  "pkg": {
+    "scripts": "commands/*.js",
+    "targets": [
+      "node16-win-x64",
+      "node16-mac-arm64"
+    ],
+    "outputPath": "build"
   }
 }
