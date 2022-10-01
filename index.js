@@ -2,13 +2,13 @@ const { Client, Collection, REST, GatewayIntentBits,
         Partials, Routes, EmbedBuilder, ActivityType } = require('discord.js');
 const config = require('./config.json');
 const pkg = require('./package.json');
-const inquirer = require('inquirer');
 const colors = require('colors');
 const fs = require('fs');
 const os = require('os');
-const { resolve } = require('path');
-const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-require('dotenv').config();
+const path = require('path');
+const commandFiles = 'ban guild help kick mute ping purge rules speak user'.split(' ');
+let envconfpath = path.join(__dirname, './.env');
+require('dotenv').config({ path: envconfpath });
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
