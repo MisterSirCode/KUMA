@@ -12,10 +12,8 @@ module.exports = {
 	async execute(interaction) {
         const specUsr = interaction.options.getUser('user');
         const specMem = interaction.options.getMember('user');
-
         const user = specUsr ? specUsr : interaction.user;
         const memb = specMem ? specMem : interaction.member;
-
         const cret = user.createdAt;
         const join = memb.joinedAt;
         const yr = (new Date(Date.now())).getYear();

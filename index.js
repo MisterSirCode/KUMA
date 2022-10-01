@@ -38,7 +38,7 @@ global.bot.once('ready', () => {
             type: ActivityType.Streaming,
             url: 'https://www.twitch.tv/mistersircode'
         }],
-        status: 'idle'
+        status: 'online'
     })
     console.log('\n\n');
     console.log(colors.bold('    █ ▄▀ █  █ █▀▄▀█ █▀▀█').magenta);

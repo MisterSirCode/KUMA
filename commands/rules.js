@@ -12,6 +12,7 @@ commandBuilder['EXFROMRULES'] = true;
 
 module.exports = {
 	data: commandBuilder,
+    override: true,
 	async execute(interaction) {
         const user = interaction.user;
         const profileEmbed = new EmbedBuilder()

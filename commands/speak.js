@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, InviteTargetType } = require('discord.js');
 
 const commandBuilder = new SlashCommandBuilder()
     .setName('speak')
@@ -11,9 +11,10 @@ const commandBuilder = new SlashCommandBuilder()
 commandBuilder['EXFROMRULES'] = true;
 
 module.exports = {
-	data: commandBuilder,
-	async execute(interaction) {
+    data: commandBuilder,
+    override: true,
+    async execute(interaction) {
         interaction.channel.send(interaction.options.getString('text'));
         interaction.reply({ content: '.', ephemeral: true });
-	},
+    },
 };
