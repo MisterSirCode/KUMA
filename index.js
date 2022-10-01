@@ -6,6 +6,7 @@ const colors = require('colors');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const { override } = require('./commands/speak');
 const commandFiles = 'ban guild help kick mute ping purge rules speak user'.split(' ');
 let envconfpath = path.join(__dirname, './.env');
 require('dotenv').config({ path: envconfpath });
@@ -50,10 +51,12 @@ global.bot.once('ready', () => {
 
 let reloadCommands = new Promise(async (resolve, reject) => {
     try {
+        let customCommands = global.commands.filter(comm => !comm["override"]);
         await rest.put(
             Routes.applicationCommands(global.bot.user.id),
-            { body: commands },
+            { body: customCommands },
         );
+        console.log(customCommands);
         resolve();
     } catch (error) {
         console.error(error);
