@@ -49,6 +49,17 @@ global.bot.once('ready', () => {
     console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
 });
 
+let resetCommands = new Promise(async (resolve, reject) => {
+    try {
+        rest.put(Routes.applicationCommands(clientId), { body: [] });
+        rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] });
+        resolve();
+    } catch (error) {
+        console.error(error);
+        resolve();
+    }
+});
+
 let reloadCommands = new Promise(async (resolve, reject) => {
     try {
         let customCommands = global.commands.filter(comm => !comm["override"]);
@@ -57,19 +68,6 @@ let reloadCommands = new Promise(async (resolve, reject) => {
             { body: customCommands },
         );
         console.log(customCommands);
-        resolve();
-    } catch (error) {
-        console.error(error);
-        resolve();
-    }
-});
-
-let reloadLocalCommands = new Promise(async (resolve, reject) => {
-    try {
-        await rest.put(
-            Routes.applicationGuildCommands(global.bot.user.id, '731511745755217931'),
-            { body: commands },
-        );
         resolve();
     } catch (error) {
         console.error(error);
@@ -117,17 +115,18 @@ global.bot.on('messageCreate', message => {
                     value: `${os.type()}`
                 });
             message.channel.send({ embeds: [logEmbed] });
-        } else if (txt.startsWith(botname + ' reload global')) {
-            message.channel.send(`Reloading all global REST commands...`);
-            reloadCommands.then(() => {
-                message.channel.send('Global slash commands updated');
-            });
-        } else if (txt.startsWith(botname + ' reload local')) {
-            message.channel.send(`Reloading all local REST commands...`);
-            reloadLocalCommands.then(() => {
-                message.channel.send('Local slash commands updated for this server');
-            })
         } else if (txt.startsWith(botname + ' reload')) {
+            message.channel.send(`Reloading REST commands...`);
+            reloadCommands.then(() => {
+                message.channel.send('Slash commands Updated');
+            });
+        } else if (txt.startsWith(botname + ' reset')) {
+            message.channel.send(`Deleting REST commands...`);
+            resetCommands.then(() => {
+                message.channel.send(`Slash commands Deleted`);
+            });
+        } else if (txt.startsWith(botname + ' load')) {
+            message.channel.send(`Attempting to reload command...`);
             const cmdName = txt.split(' ')[1];
             if(message.client.commands.get(cmdName)){
                 const command = message.client.commands.get(cmdName) ||
