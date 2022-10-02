@@ -25,11 +25,13 @@ global.color = '#' + config.bot.color;
 global.botOwner = config.bot.owner;
 global.version = pkg.version;
 global.commands = [];
+global.locals = []
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     global.bot.commands.set(command.data.name, command);
-    global.commands.push(command.data.toJSON());
+    if (command.override) global.locals.push(command.data.toJSON());
+    else  global.commands.push(command.data.toJSON());
 }
 
 global.bot.once('ready', () => {
@@ -51,8 +53,8 @@ global.bot.once('ready', () => {
 
 let resetCommands = new Promise(async (resolve, reject) => {
     try {
-        rest.put(Routes.applicationCommands(clientId), { body: [] });
-        rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] });
+        await rest.put(Routes.applicationCommands(global.bot.user.id), { body: [] });
+        await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: [] });
         resolve();
     } catch (error) {
         console.error(error);
@@ -62,11 +64,9 @@ let resetCommands = new Promise(async (resolve, reject) => {
 
 let reloadCommands = new Promise(async (resolve, reject) => {
     try {
-        let customCommands = global.commands.filter(comm => !comm["override"]);
-        await rest.put(
-            Routes.applicationCommands(global.bot.user.id),
-            { body: customCommands },
-        );
+        let customCommands = global.commands;
+        await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.commands });
+        await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals });
         console.log(customCommands);
         resolve();
     } catch (error) {
