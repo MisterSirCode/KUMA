@@ -34,7 +34,7 @@ for (const file of commandFiles) {
     else  global.commands.push(command.data.toJSON());
 }
 
-global.bot.once('ready', () => {
+function refreshPresence() {
     global.bot.user.setPresence({
         activities: [{
             name: 'v' + global.version,
@@ -42,13 +42,18 @@ global.bot.once('ready', () => {
             url: 'https://www.twitch.tv/mistersircode'
         }],
         status: 'online'
-    })
+    });
+}
+
+global.bot.once('ready', () => {
     console.log('\n\n');
     console.log(colors.bold('    █ ▄▀ █  █ █▀▄▀█ █▀▀█').magenta);
     console.log(colors.bold('    █▀▄  █  █ █ █ █ █▄▄█').magenta);
     console.log(colors.bold('    █  █ ▀▄▄▀ █   █ █  █').magenta);
     console.log(colors.bold(`    v${global.version}\n\n`).magenta);
     console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
+    refreshPresence();
+    setInterval(refreshPresence, 60000);
 });
 
 let resetCommands = new Promise(async (resolve, reject) => {
