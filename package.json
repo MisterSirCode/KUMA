@@ -4,8 +4,7 @@
   "description": "Discord Bot",
   "main": "./index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "pkg -c package.json index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -22,14 +21,6 @@
     "discord-api-types": "^0.22.0",
     "discord.js": "^14.2.0",
     "dotenv": "^16.0.1",
-    "inquirer": "^8.0.0",
-    "pkg": "^5.8.0"
-  },
-  "pkg": {
-    "scripts": "./commands/*.js",
-    "targets": [
-      "node16-win-x64"
-    ],
-    "outputPath": "build"
+    "inquirer": "^8.0.0"
   }
 }
