@@ -70,7 +70,7 @@ let resetCommands = new Promise(async (resolve, reject) => {
 let reloadCommands = new Promise(async (resolve, reject) => {
     try {
         let customCommands = global.commands;
-        await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.commands });
+        //await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.commands });
         await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals });
         console.log(customCommands);
         resolve();
