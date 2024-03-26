@@ -4,7 +4,7 @@ module.exports = {
     local: false,
 	data: new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Ping Arthur'),
+		.setDescription('Ping the bot'),
 	async execute(interaction) {
 		const user = global.bot.user;
 		const pingEmbed = new EmbedBuilder()

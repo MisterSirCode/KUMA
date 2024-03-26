@@ -20,13 +20,13 @@ module.exports = {
         const joinAge = yr - join.getYear();
         const profileEmbed = new EmbedBuilder()
             .setAuthor({ 
-                name: `Profile of ${user.username}#${user.discriminator}`, 
+                name: `Profile of @${user.username}`, 
                 iconURL: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
             })
             .setThumbnail(`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`)
             .setDescription(`${user.id}`)
             .addFields({
-                name: 'Creation Date',
+                name: 'User Creation Date',
                 value: `${cret.toDateString()}${cretAge > 0 ? ', ' + cretAge + ' years ago' : ''}`
             }, {
                 name: 'Local Join Date',
