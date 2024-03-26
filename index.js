@@ -45,6 +45,20 @@ function refreshPresence() {
     });
 }
 
+function dmOwner(message) {
+    global.bot.users.fetch(global.botOwner, false).then((user) => {
+        user.send(message);
+    });
+}
+
+function dayTimer(daysCompleted) {
+    if (daysCompleted >= 20) {
+        dmOwner('Reminder to ping me today!');
+    } else {
+        setInterval(dayTimer(daysCompleted + 1), 86400000); // 24 Hours
+    }
+}
+
 global.bot.once('ready', () => {
     console.log('\n\n');
     console.log(colors.bold('    █ ▄▀ █  █ █▀▄▀█ █▀▀█').magenta);
@@ -54,6 +68,7 @@ global.bot.once('ready', () => {
     console.log(colors.bold(' + ').green + `Logged in as `.cyan + colors.bold(global.bot.user.tag).red + '\n');
     refreshPresence();
     setInterval(refreshPresence, 60000);
+    dayTimer(0);
 });
 
 let resetCommands = new Promise(async (resolve, reject) => {
@@ -97,7 +112,15 @@ global.bot.on('messageCreate', message => {
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
         let botname = bot.user.username.toLowerCase();
-        if (txt.startsWith(botname + ' end')) {
+        if (txt.startsWith(botname + ' eval')) {
+            const content = txt.split(' ').shift().join(' ');
+            try {
+                eval(content);
+                message.reply('Eval has been run without errors');
+            } catch(e) {
+                message.reply('Eval failed with error: ' + e);
+            }
+        } else if (txt.startsWith(botname + ' end')) {
             console.log('Shutting Down...'.red);
             message.reply('Emergency Shutdown Started').then(process.exit);
         } else if (txt.startsWith(botname + ' restart')) {
