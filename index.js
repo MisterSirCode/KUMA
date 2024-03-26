@@ -5,6 +5,7 @@ const pkg = require('./package.json');
 const colors = require('colors');
 const os = require('os');
 const path = require('path');
+const { isArray } = require('util');
 const commandFiles = 'ban guild help kick mute ping purge rules speak user'.split(' ');
 let envconfpath = path.join(__dirname, './.env');
 require('dotenv').config({ path: envconfpath });
@@ -52,10 +53,13 @@ function dmOwner(message) {
 }
 
 function dayTimer(daysCompleted) {
-    if (daysCompleted >= 20) {
+    if (daysCompleted >= 25) {
         dmOwner('Reminder to ping me today!');
+        dayTimer(0)
     } else {
-        setInterval(dayTimer(daysCompleted + 1), 86400000); // 24 Hours
+        setTimeout(() => {
+            dayTimer(daysCompleted + 1);
+        }, 86400000); // 24 Hours
     }
 }
 
@@ -112,11 +116,13 @@ global.bot.on('messageCreate', message => {
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
         let botname = bot.user.username.toLowerCase();
-        if (txt.startsWith(botname + ' eval')) {
-            const content = txt.split(' ').shift().join(' ');
+        if (txt.startsWith(botname + '-eval')) {
+            const content = txt.split(' ');
             try {
-                eval(content);
-                message.reply('Eval has been run without errors');
+                content.shift();
+                const evalText = Array.isArray(content) ? content.join(' ') : content;
+                const out = eval('('+content+')')
+                message.reply(out ? out : 'Eval ran with no output');
             } catch(e) {
                 message.reply('Eval failed with error: ' + e);
             }
