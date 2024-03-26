@@ -77,8 +77,10 @@ global.bot.once('ready', () => {
 
 let resetCommands = new Promise(async (resolve, reject) => {
     try {
-        await rest.put(Routes.applicationCommands(global.bot.user.id), { body: [] });
-        await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: [] });
+        let globalComs = await rest.put(Routes.applicationCommands(global.bot.user.id), { body: [] });
+        let localComs = await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: [] });
+		console.log(`Successfully deleted ${globalComs.length} global commands.`);
+		console.log(`Successfully deleted ${localComs.length} local commands.`);
         resolve();
     } catch (error) {
         console.error(error);
@@ -88,10 +90,10 @@ let resetCommands = new Promise(async (resolve, reject) => {
 
 let reloadCommands = new Promise(async (resolve, reject) => {
     try {
-        let customCommands = global.commands;
-        await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.globals });
-        await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals });
-        console.log(customCommands);
+        let globalComs = await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.globals });
+        let localComs = await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals });
+		console.log(`Successfully set ${globalComs.length} global commands.`);
+		console.log(`Successfully set ${localComs.length} local commands.`);
         resolve();
     } catch (error) {
         console.error(error);
