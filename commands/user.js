@@ -35,7 +35,6 @@ module.exports = {
             .setColor(global.color);
         let tmpu = await user.fetch({ force: true });
         if (tmpu.id) profileEmbed.setColor(tmpu.hexAccentColor == null ? global.color : tmpu.hexAccentColor);
-        console.log(tmpu);
         if (user.id == global.botOwner)
             profileEmbed.setFooter({
                 text: 'Owner of Kuma',
