@@ -75,32 +75,6 @@ global.bot.once('ready', () => {
     dayTimer(0);
 });
 
-let resetCommands = new Promise(async (resolve, reject) => {
-    try {
-        let globalComs = await rest.put(Routes.applicationCommands(global.bot.user.id), { body: [] });
-        let localComs = await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: [] });
-		console.log(`Successfully deleted ${globalComs.length} global commands.`);
-		console.log(`Successfully deleted ${localComs.length} local commands.`);
-        resolve();
-    } catch (error) {
-        console.error(error);
-        resolve();
-    }
-});
-
-let reloadCommands = new Promise(async (resolve, reject) => {
-    try {
-        let globalComs = await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.globals });
-        let localComs = await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals });
-		console.log(`Successfully set ${globalComs.length} global commands.`);
-		console.log(`Successfully set ${localComs.length} local commands.`);
-        resolve();
-    } catch (error) {
-        console.error(error);
-        resolve();
-    }
-});
-
 global.bot.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
     if (!global.bot.commands.has(interaction.commandName)) return;
@@ -118,65 +92,76 @@ global.bot.on('messageCreate', message => {
     const txt = message.content;
     if (message.author.id == config.bot.owner) {
         let botname = bot.user.username.toLowerCase();
-        if (txt.startsWith(botname + '-eval')) {
-            const content = txt.split(' ');
-            try {
-                content.shift();
-                const evalText = Array.isArray(content) ? content.join(' ') : content;
-                const out = eval('('+content+')')
-                message.reply(out ? out : 'Eval ran with no output');
-            } catch(e) {
-                message.reply('Eval failed with error: ' + e);
-            }
-        } else if (txt.startsWith(botname + ' end')) {
-            console.log('Shutting Down...'.red);
-            message.reply('Emergency Shutdown Started').then(process.exit);
-        } else if (txt.startsWith(botname + ' restart')) {
-            process.on('exit', function () {
-                require('child_process').spawn(process.argv.shift(), process.argv, {
-                    cwd: process.cwd(),
-                    detached : true,
-                    stdio: 'inherit'
+        try {
+            if (txt.startsWith('keval')) {
+                const content = txt.split(' ');
+                try {
+                    content.shift();
+                    const evalText = Array.isArray(content) ? content.join(' ') : content;
+                    const out = eval('('+content+')')
+                    message.reply(out ? out : 'Eval ran with no output');
+                } catch(e) {
+                    message.reply('Eval failed with error: ' + e);
+                }
+            } else if (txt.startsWith(botname + ' end')) {
+                console.log('Shutting Down...'.red);
+                message.reply('Emergency Shutdown Started').then(process.exit);
+            } else if (txt.startsWith(botname + ' restart')) {
+                process.on('exit', function () {
+                    require('child_process').spawn(process.argv.shift(), process.argv, {
+                        cwd: process.cwd(),
+                        detached : true,
+                        stdio: 'inherit'
+                    });
                 });
-            });
-            console.log('Restarting...'.red);
-            message.reply('Emergency Restart Started').then(process.exit);
-        } else if (txt.startsWith(botname + ' host')) {
-            const logEmbed = new EmbedBuilder()
-                .addFields({
-                    name: 'Platform',
-                    value: `${os.platform()} - ${os.release}`
-                }, {
-                    name: 'Host Type',
-                    value: `${os.type()}`
+                console.log('Restarting...'.red);
+                message.reply('Emergency Restart Started').then(process.exit);
+            } else if (txt.startsWith(botname + ' host')) {
+                const logEmbed = new EmbedBuilder()
+                    .addFields({
+                        name: 'Platform',
+                        value: `${os.platform()} - ${os.release()} / ${os.version()}`
+                    }, {
+                        name: 'Host Type',
+                        value: `"${os.hostname}" ${os.type()} - ${os.machine()} / ${os.arch()}`
+                    }, {
+                        name: 'CPU',
+                        value: `${os.cpus()[0].model}`
+                    });
+                message.reply({ embeds: [logEmbed] });
+            } else if (txt.startsWith(botname + ' reload')) {
+                message.reply(`Reloading REST commands...`);
+                rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.globals }).then((e) => {
+                    rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals }).then(() => {
+                        message.channel.send((global.commands.length) + ' slash commands Updated');
+                    });
                 });
-            message.channel.send({ embeds: [logEmbed] });
-        } else if (txt.startsWith(botname + ' reload')) {
-            message.channel.send(`Reloading REST commands...`);
-            reloadCommands.then(() => {
-                message.channel.send('Slash commands Updated');
-            });
-        } else if (txt.startsWith(botname + ' reset')) {
-            message.channel.send(`Deleting REST commands...`);
-            resetCommands.then(() => {
-                message.channel.send(`Slash commands Deleted`);
-            });
-        } else if (txt.startsWith(botname + ' load')) {
-            message.channel.send(`Attempting to reload command...`);
-            const cmdName = txt.split(' ')[1];
-            if(message.client.commands.get(cmdName)){
-                const command = message.client.commands.get(cmdName) ||
-                message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
-                if (!command) return message.channel.send(`No command named \`${cmdName}\``);
-                delete require.cache[require.resolve(`./commands/${cmdName}.js`)];
+            } else if (txt.startsWith(botname + ' reset')) {
+                message.reply(`Deleting REST commands...`);
+                rest.put(Routes.applicationCommands(global.bot.user.id), { body: [] }).then(() => {
+                    rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: [] }).then(() => {
+                        message.channel.send((global.commands.length) + ' slash commands Deleted');
+                    });
+                });
+            } else if (txt.startsWith(botname + ' load')) { // Unfinished
+                message.reply(`Attempting to reload command...`);
+                const cmdName = txt.split(' ')[1];
+                if(message.client.commands.get(cmdName)){
+                    const command = message.client.commands.get(cmdName) ||
+                    message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+                    if (!command) return message.channel.send(`No command named \`${cmdName}\``);
+                    delete require.cache[require.resolve(`./commands/${cmdName}.js`)];
+                }
+                try {
+                    const newCommand = require(`./${cmdName}.js`);
+                    message.client.commands.set(cmdName, newCommand);
+                    message.channel.send(`Command ${cmdName} Reloaded`);
+                } catch (error) {
+                    console.log(error);
+                }
             }
-            try {
-                const newCommand = require(`./${cmdName}.js`);
-                message.client.commands.set(cmdName, newCommand);
-                message.channel.send(`Command ${cmdName} Reloaded`);
-            } catch (error) {
-                console.log(error);
-            }
+        } catch(e) {
+            message.reply('Failed with error: ' + e);
         }
     }
 });
