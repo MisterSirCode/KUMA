@@ -1,6 +1,6 @@
 {
   "name": "kuma-bot",
-  "version": "3.1.0",
+  "version": "4.0",
   "description": "Discord Bot",
   "main": "./index.js",
   "scripts": {

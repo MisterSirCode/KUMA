@@ -1,15 +1,15 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-
-const commandBuilder = new SlashCommandBuilder()
-    .setName('kick')
-    .setDescription('(Guild Moderator) Kick user from your guild')
-    .addUserOption((option) => 
-        option.setName('user')
-        .setDescription('User to kick')
-        .setRequired(true));
+const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-	data: commandBuilder,
+    local: false,
+	data: new SlashCommandBuilder()
+        .setName('kick')
+        .setDescription('(Guild Moderator) Kick user from your guild')
+        .addUserOption((option) => 
+            option.setName('user')
+            .setDescription('User to kick')
+            .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 	async execute(interaction) {
         if (!interaction.inGuild())
             interaction.reply('You cant kick that person. Sorry');

@@ -1,6 +1,7 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    local: false,
 	data: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('Get some help'),
@@ -8,7 +9,7 @@ module.exports = {
         const helpEmbed = new EmbedBuilder()
             .setTitle(`${global.bot.user.username}\'s Commands`)
 			.setColor(global.color);
-			global.commands.forEach((command) => {
+			global.globals.forEach((command) => {
 				if (command.EXFROMRULES) return;
 				helpEmbed.addFields({
 					name: '/' + command.name, 

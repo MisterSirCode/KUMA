@@ -1,6 +1,7 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
+    local: false,
 	data: new SlashCommandBuilder()
 		.setName('purge')
 		.setDescription('Mass Delete Messages')
@@ -11,7 +12,8 @@ module.exports = {
         .addBooleanOption(option =>
             option.setName('quiet')
                 .setDescription('Whether to announce it or not. Default is No')
-                .setRequired(false)),
+                .setRequired(false))
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 	async execute(interaction) {
         let count = Math.min(Math.max(interaction.options.getInteger('number'), 2), 100);
             interaction.channel.bulkDelete(count).then(() => {interaction.reply({ content: `Successfully Deleted ${count} Messages`, ephemeral: (interaction.options.getBoolean('quiet') || false) });

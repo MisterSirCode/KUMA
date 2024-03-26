@@ -1,11 +1,10 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
-const commandBuilder = new SlashCommandBuilder()
-    .setName('guild')
-    .setDescription(`See this guild's common information`);
-
 module.exports = {
-	data: commandBuilder,
+    local: false,
+	data: new SlashCommandBuilder()
+        .setName('guild')
+        .setDescription(`See this guild's common information`),
 	async execute(interaction) {
         const guild = interaction.guild;
         const profileEmbed = new EmbedBuilder()

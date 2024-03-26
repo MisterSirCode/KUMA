@@ -3,10 +3,8 @@ const { Client, Collection, REST, GatewayIntentBits,
 const config = require('./config.json');
 const pkg = require('./package.json');
 const colors = require('colors');
-const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { override } = require('./commands/speak');
 const commandFiles = 'ban guild help kick mute ping purge rules speak user'.split(' ');
 let envconfpath = path.join(__dirname, './.env');
 require('dotenv').config({ path: envconfpath });
@@ -25,13 +23,15 @@ global.color = '#' + config.bot.color;
 global.botOwner = config.bot.owner;
 global.version = pkg.version;
 global.commands = [];
-global.locals = []
+global.locals = [];
+global.globals = [];
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     global.bot.commands.set(command.data.name, command);
-    if (command.override) global.locals.push(command.data.toJSON());
-    else  global.commands.push(command.data.toJSON());
+    if (command.local) global.locals.push(command.data.toJSON());
+    else  global.globals.push(command.data.toJSON());
+    global.commands.push(command.data.toJSON())
 }
 
 function refreshPresence() {
@@ -70,7 +70,7 @@ let resetCommands = new Promise(async (resolve, reject) => {
 let reloadCommands = new Promise(async (resolve, reject) => {
     try {
         let customCommands = global.commands;
-        //await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.commands });
+        await rest.put(Routes.applicationCommands(global.bot.user.id), { body: global.globals });
         await rest.put(Routes.applicationGuildCommands(global.bot.user.id, config.bot.mainserver), { body: global.locals });
         console.log(customCommands);
         resolve();

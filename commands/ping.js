@@ -1,6 +1,7 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
+    local: false,
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Ping Arthur'),

@@ -1,17 +1,17 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-
-const commandBuilder = new SlashCommandBuilder()
-    .setName('mute')
-    .setDescription('Mute user')
-    .addUserOption((option) => option.setName('user')
-        .setDescription('Account you want to Mute')
-        .setRequired(true))
-    .addStringOption((option) => option.setName('reason')
-        .setDescription('Reason for the Mute')
-        .setRequired(false));
+const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-	data: commandBuilder,
+    local: true,
+	data: new SlashCommandBuilder()
+        .setName('mute')
+        .setDescription('Mute user')
+        .addUserOption((option) => option.setName('user')
+            .setDescription('Account you want to Mute')
+            .setRequired(true))
+        .addStringOption((option) => option.setName('reason')
+            .setDescription('Reason for the Mute')
+            .setRequired(false))
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 	async execute(interaction) {
         const options = interaction.options;
         const specMem = options.getMember('user');

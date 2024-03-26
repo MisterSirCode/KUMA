@@ -1,14 +1,13 @@
 const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
-const commandBuilder = new SlashCommandBuilder()
-    .setName('user')
-    .setDescription('See your own or someone elses arthur profile')
-    .addUserOption((option) => option.setName('user')
-        .setDescription('Account you want to view')
-        .setRequired(true));
-
 module.exports = {
-	data: commandBuilder,
+    local: false,
+	data: new SlashCommandBuilder()
+        .setName('user')
+        .setDescription('See your own or someone elses arthur profile')
+        .addUserOption((option) => option.setName('user')
+            .setDescription('Account you want to view')
+            .setRequired(true)),
 	async execute(interaction) {
         const specUsr = interaction.options.getUser('user');
         const specMem = interaction.options.getMember('user');

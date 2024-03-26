@@ -1,15 +1,15 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-
-const commandBuilder = new SlashCommandBuilder()
-    .setName('ban')
-    .setDescription('(Guild Moderator) Ban user from your guild')
-    .addUserOption((option) => 
-        option.setName('user')
-        .setDescription('User to ban')
-        .setRequired(true));
+const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-	data: commandBuilder,
+    local: false,
+	data: new SlashCommandBuilder()
+        .setName('ban')
+        .setDescription('(Guild Moderator) Ban user from your guild')
+        .addUserOption((option) => 
+            option.setName('user')
+            .setDescription('User to ban')
+            .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 	async execute(interaction) {
         if (!interaction.inGuild())
             interaction.reply('You cant ban that person. Sorry');
