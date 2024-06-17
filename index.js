@@ -123,7 +123,7 @@ global.bot.on('messageCreate', message => {
                         value: `${os.platform()} - ${os.release()} / ${os.version()}`
                     }, {
                         name: 'Host Type',
-                        value: `"${os.hostname}" ${os.type()} - ${os.machine()} / ${os.arch()}`
+                        value: `"${os.hostname()}" ${os.type()} - ${os.machine()} / ${os.arch()}`
                     }, {
                         name: 'CPU',
                         value: `${os.cpus()[0].model}`
